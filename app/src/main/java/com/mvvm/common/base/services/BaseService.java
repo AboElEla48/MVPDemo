@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 
 /**
  * Created by AboelelaA on 6/6/2017.
+ *
+ * This is the parent class for all services
  */
 
 public class BaseService extends Service

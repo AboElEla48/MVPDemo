@@ -8,11 +8,12 @@ import java.lang.annotation.Target;
 /**
  * Created by AboelelaA on 6/6/2017.
  *
- * This annotation for ViewModels
+ * This retention for layout inflation from resources
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface ViewModel
+@Target(ElementType.TYPE)
+public @interface InflateLayout
 {
+    int value();
 }
