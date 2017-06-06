@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mvvm.common.base.LayoutIdScanner;
+import com.mvvm.common.interfaces.BaseView;
+
 /**
  * Created by AboelelaA on 6/6/2017.
  * This is the parent fragment
  */
 
-public class BaseFragment extends Fragment
+public class BaseFragment extends Fragment implements BaseView
 {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,7 +25,10 @@ public class BaseFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        // Get declared resource Id of this activity
+        int resourceId = new LayoutIdScanner().apply(this);
+        return inflater.inflate(resourceId, container, false);
     }
 
     @Override

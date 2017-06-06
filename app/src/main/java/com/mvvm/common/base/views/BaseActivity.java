@@ -1,5 +1,6 @@
 package com.mvvm.common.base.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -42,5 +43,10 @@ public class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected final void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

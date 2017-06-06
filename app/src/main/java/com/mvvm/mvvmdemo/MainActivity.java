@@ -1,16 +1,10 @@
 package com.mvvm.mvvmdemo;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
 import com.mvvm.R;
+import com.mvvm.common.annotation.InflateLayout;
+import com.mvvm.common.base.views.BaseActivity;
 
-public class MainActivity extends AppCompatActivity
+@InflateLayout(R.layout.activity_main)
+public class MainActivity extends BaseActivity
 {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
 }
