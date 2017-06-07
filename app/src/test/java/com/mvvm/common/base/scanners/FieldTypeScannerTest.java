@@ -44,30 +44,6 @@ public class FieldTypeScannerTest
         apply_Models(fieldTypeScanner, fields);
         apply_ViewModel(fieldTypeScanner, fields);
 
-//
-//        // Operation
-//        Field presenterFiled = (Field) fieldTypeScanner.apply(fields, Presenter.class);
-//        Field modelFiled = (Field) fieldTypeScanner.apply(fields, Model.class);
-//        Field viewModelFiled = (Field) fieldTypeScanner.apply(fields, ViewModel.class);
-//
-//
-//
-//        Constructor<?> presenterConstructor = presenterFiled.getType().getDeclaredConstructor();
-//        presenterConstructor.setAccessible(true);
-//        Object presenterObject = presenterConstructor.newInstance();
-//
-//        Constructor<?> viewModelConstructor = viewModelFiled.getType().getDeclaredConstructors()[0];
-//        viewModelConstructor.setAccessible(true);
-//        Object viewModelObject = viewModelConstructor.newInstance(10);
-//
-//        Constructor<?> modelConstructor = modelFiled.getType().getDeclaredConstructors()[0];
-//        modelConstructor.setAccessible(true);
-//        Object modelObject = modelConstructor.newInstance(12L);
-//
-//
-//        Assert.assertTrue(presenterObject.getClass().getSimpleName().equals("String"));
-//        Assert.assertTrue(modelObject.getClass().getSimpleName().equals("Long"));
-//        Assert.assertTrue(viewModelObject.getClass().getSimpleName().equals("Integer"));
     }
 
 
