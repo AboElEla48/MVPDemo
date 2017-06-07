@@ -2,7 +2,6 @@ package com.mvvm.common.interfaces;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
 /**
@@ -13,7 +12,7 @@ import android.support.annotation.Nullable;
 
 public interface ViewLifeCycle
 {
-    void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState);
+    void onCreate(@Nullable Bundle savedInstanceState);
 
     void onStart();
 
@@ -27,7 +26,7 @@ public interface ViewLifeCycle
 
     void onActivityResult(int requestCode, int resultCode, Intent data);
 
-    void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState);
+    void onSaveInstanceState(Bundle outState);
 
-    void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState);
+    void onRestoreInstanceState(Bundle savedInstanceState);
 }

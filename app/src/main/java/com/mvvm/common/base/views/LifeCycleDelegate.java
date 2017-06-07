@@ -2,20 +2,75 @@ package com.mvvm.common.base.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.mvvm.common.annotation.Presenter;
+import com.mvvm.common.base.InvalidObject;
+import com.mvvm.common.base.presenters.BasePresenter;
+import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.interfaces.ViewLifeCycle;
+
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /**
  * Created by AboelelaA on 6/7/2017.
  * This is the object that will held in activities and fragments to pass view life cycle events to it
  */
 
-public final class LifeCycleDelegate implements ViewLifeCycle
+final class LifeCycleDelegate implements ViewLifeCycle
 {
+    private Class<?> hostViewClass;
+    private WeakReference<ViewLifeCycle> hostObjectReference;
+    private BasePresenter presenter;
+
+    LifeCycleDelegate(Object hostViews) {
+        hostViewClass = hostViews.getClass();
+        hostObjectReference = new WeakReference<>((ViewLifeCycle) hostViews);
+    }
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        Object hostView = hostObjectReference.get();
+        if (hostView == null) {
+            return;
+        }
+
+        // Get presenter object by annotation
+        Observable.just(new FieldTypeScanner().apply(hostView.getClass().getDeclaredFields(), Presenter.class))
+                .filter(new Predicate<Object>()
+                {
+                    @Override
+                    public boolean test(@NonNull Object o) throws Exception {
+                        return !(o instanceof InvalidObject);
+                    }
+                })
+                .map(new Function<Object, Object>()
+                {
+                    @Override
+                    public Object apply(@NonNull Object presenterField) throws Exception {
+
+                        Constructor<?> presenterConstructor = ((Field)presenterField).getType().getDeclaredConstructor();
+                        presenterConstructor.setAccessible(true);
+                        presenter = (BasePresenter) presenterConstructor.newInstance();
+
+                        return presenter;
+                    }
+                })
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        presenter.onCreate(savedInstanceState);
+                    }
+                });
 
     }
 
@@ -50,12 +105,12 @@ public final class LifeCycleDelegate implements ViewLifeCycle
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(Bundle outState) {
 
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
 
     }
 }

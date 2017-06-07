@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mvvm.common.base.scanners.LayoutIdScanner;
 import com.mvvm.common.interfaces.BaseView;
+import com.mvvm.common.interfaces.ViewLifeCycle;
 
 import butterknife.ButterKnife;
 
@@ -16,13 +17,13 @@ import butterknife.ButterKnife;
  * This is the parent activity
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseView
+public class BaseActivity extends AppCompatActivity implements BaseView, ViewLifeCycle
 {
     private LifeCycleDelegate lifeCycleDelegate;
 
     @Override
-    public final void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public final void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // Get declared resource Id of this activity
         int resourceId = new LayoutIdScanner().apply(this);
@@ -32,56 +33,66 @@ public class BaseActivity extends AppCompatActivity implements BaseView
         ButterKnife.bind(this);
 
         // pass lifecycle to view life cycle delegate
-        lifeCycleDelegate = new LifeCycleDelegate();
-        lifeCycleDelegate.onCreate(savedInstanceState, persistentState);
+        lifeCycleDelegate = new LifeCycleDelegate(this);
+        lifeCycleDelegate.onCreate(savedInstanceState);
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         lifeCycleDelegate.onStart();
     }
 
     @Override
-    protected final void onRestart() {
+    public final void onRestart() {
         super.onRestart();
         lifeCycleDelegate.onRestart();
     }
 
     @Override
-    protected final void onResume() {
+    public final void onResume() {
         super.onResume();
         lifeCycleDelegate.onResume();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        lifeCycleDelegate.onSaveInstanceState(outState, outPersistentState);
+        lifeCycleDelegate.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
-        lifeCycleDelegate.onRestoreInstanceState(savedInstanceState, persistentState);
+        lifeCycleDelegate.onRestoreInstanceState(savedInstanceState);
     }
 
 
     @Override
-    protected final void onPause() {
+    public final void onPause() {
         lifeCycleDelegate.onPause();
         super.onPause();
     }
 
     @Override
-    protected final void onDestroy() {
+    public final void onDestroy() {
         lifeCycleDelegate.onDestroy();
         super.onDestroy();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         lifeCycleDelegate.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
     }
 }
