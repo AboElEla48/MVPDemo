@@ -2,8 +2,10 @@ package com.mvvm.common.base.presenters;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.ViewLifeCycle;
 
 /**
@@ -12,8 +14,19 @@ import com.mvvm.common.interfaces.ViewLifeCycle;
  * This is the parent class for all presenters
  */
 
-public class BasePresenter implements ViewLifeCycle
+public class BasePresenter<V extends BaseView> implements ViewLifeCycle
 {
+    private V baseView;
+
+    /**
+     * init base view object
+     * @param baseView: this is te base view that will be accessed from presenter
+     */
+    public void initBaseView(@NonNull V baseView)
+    {
+        this.baseView = baseView;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -57,5 +70,9 @@ public class BasePresenter implements ViewLifeCycle
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
 
+    }
+
+    public V getBaseView(){
+        return baseView;
     }
 }

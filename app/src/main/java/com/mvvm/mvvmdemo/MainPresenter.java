@@ -10,12 +10,13 @@ import com.mvvm.common.base.presenters.BasePresenter;
  * Presenter for Main activity
  */
 
-class MainPresenter extends BasePresenter
+class MainPresenter extends BasePresenter<MainActivity>
 {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: need to set the text here to text view in activity
+        // need to set the text here to text view in activity
+        getBaseView().mainTitleTextView.setText("This text is set from Presenter");
     }
 }

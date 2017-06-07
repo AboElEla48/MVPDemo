@@ -9,6 +9,7 @@ import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.base.InvalidObject;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
+import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.ViewLifeCycle;
 
 import java.lang.ref.WeakReference;
@@ -38,7 +39,7 @@ final class LifeCycleDelegate implements ViewLifeCycle
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
-        Object hostView = hostObjectReference.get();
+        final BaseView hostView = (BaseView) hostObjectReference.get();
         if (hostView == null) {
             return;
         }
@@ -61,6 +62,9 @@ final class LifeCycleDelegate implements ViewLifeCycle
                         presenterConstructor.setAccessible(true);
                         presenter = (BasePresenter) presenterConstructor.newInstance();
 
+                        // pass base view to presenter
+                        presenter.initBaseView(hostView);
+
                         return presenter;
                     }
                 })
@@ -76,41 +80,41 @@ final class LifeCycleDelegate implements ViewLifeCycle
 
     @Override
     public void onStart() {
-
+        presenter.onStart();
     }
 
     @Override
     public void onRestart() {
-
+        presenter.onRestart();
     }
 
     @Override
     public void onResume() {
-
+        presenter.onResume();
     }
 
     @Override
     public void onPause() {
-
+        presenter.onPause();
     }
 
     @Override
     public void onDestroy() {
-
+        presenter.onDestroy();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        presenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
+        presenter.onSaveInstanceState(outState);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-
+        presenter.onRestoreInstanceState(savedInstanceState);
     }
 }
