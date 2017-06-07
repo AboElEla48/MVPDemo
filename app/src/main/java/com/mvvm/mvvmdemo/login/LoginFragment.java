@@ -3,10 +3,14 @@ package com.mvvm.mvvmdemo.login;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.widget.Button;
 
 import com.mvvm.R;
 import com.mvvm.common.annotation.InflateLayout;
+import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.base.views.BaseFragment;
+
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +21,11 @@ import com.mvvm.common.base.views.BaseFragment;
 @InflateLayout(R.layout.fragment_login)
 public class LoginFragment extends BaseFragment
 {
+    @Presenter
+    LoginPresenter loginPresenter;
+
+    @BindView(R.id.login_fragment_login_btn)
+    Button loginBtn;
 
     public LoginFragment() {
         // Required empty public constructor

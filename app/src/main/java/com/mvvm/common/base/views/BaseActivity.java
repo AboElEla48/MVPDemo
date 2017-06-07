@@ -75,6 +75,12 @@ public class BaseActivity extends AppCompatActivity implements BaseView, ViewLif
     }
 
     @Override
+    public void onStop() {
+        lifeCycleDelegate.onStop();
+        super.onStop();
+    }
+
+    @Override
     public final void onDestroy() {
         lifeCycleDelegate.onDestroy();
         super.onDestroy();
@@ -88,11 +94,16 @@ public class BaseActivity extends AppCompatActivity implements BaseView, ViewLif
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
+        lifeCycleDelegate.onSaveInstanceState(outState);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+        lifeCycleDelegate.onRestoreInstanceState(savedInstanceState);
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        lifeCycleDelegate.onActivityCreated(savedInstanceState);
     }
 }

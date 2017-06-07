@@ -17,4 +17,5 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.main_activity_title_text_view)
     TextView mainTitleTextView;
+
 }

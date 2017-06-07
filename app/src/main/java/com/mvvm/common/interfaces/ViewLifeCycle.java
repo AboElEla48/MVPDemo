@@ -22,6 +22,8 @@ public interface ViewLifeCycle
 
     void onPause();
 
+    void onStop();
+
     void onDestroy();
 
     void onActivityResult(int requestCode, int resultCode, Intent data);
@@ -29,4 +31,6 @@ public interface ViewLifeCycle
     void onSaveInstanceState(Bundle outState);
 
     void onRestoreInstanceState(Bundle savedInstanceState);
+
+    void onActivityCreated(@Nullable Bundle savedInstanceState);
 }

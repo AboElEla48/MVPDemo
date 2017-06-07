@@ -58,7 +58,7 @@ final class LifeCycleDelegate implements ViewLifeCycle
                     @Override
                     public Object apply(@NonNull Object presenterField) throws Exception {
 
-                        Constructor<?> presenterConstructor = ((Field)presenterField).getType().getDeclaredConstructor();
+                        Constructor<?> presenterConstructor = ((Field) presenterField).getType().getDeclaredConstructor();
                         presenterConstructor.setAccessible(true);
                         presenter = (BasePresenter) presenterConstructor.newInstance();
 
@@ -99,6 +99,11 @@ final class LifeCycleDelegate implements ViewLifeCycle
     }
 
     @Override
+    public void onStop() {
+        presenter.onStop();
+    }
+
+    @Override
     public void onDestroy() {
         presenter.onDestroy();
     }
@@ -116,5 +121,10 @@ final class LifeCycleDelegate implements ViewLifeCycle
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         presenter.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        presenter.onActivityCreated(savedInstanceState);
     }
 }

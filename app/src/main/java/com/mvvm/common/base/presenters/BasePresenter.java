@@ -53,6 +53,11 @@ public class BasePresenter<V extends BaseView> implements ViewLifeCycle
     }
 
     @Override
+    public void onStop() {
+
+    }
+
+    @Override
     public void onDestroy() {
 
     }
@@ -69,6 +74,11 @@ public class BasePresenter<V extends BaseView> implements ViewLifeCycle
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
     }
 
