@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mvvm.common.base.LayoutIdScanner;
+import com.mvvm.common.base.scanners.LayoutIdScanner;
 import com.mvvm.common.interfaces.BaseView;
 
 /**

@@ -1,4 +1,4 @@
-package com.mvvm.common.base;
+package com.mvvm.common.base.scanners;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * Created by AboelelaA on 6/6/2017.
  *
- * This scanner to scane annotations of layouts in views to inflate it to views
+ * This scanner to scan annotations of layouts in views to inflate it to views
  */
 public class LayoutIdScannerTest
 {

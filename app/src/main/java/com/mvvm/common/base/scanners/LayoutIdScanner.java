@@ -1,4 +1,4 @@
-package com.mvvm.common.base;
+package com.mvvm.common.base.scanners;
 
 import com.mvvm.common.annotation.InflateLayout;
 import com.mvvm.common.utils.MyLog;
