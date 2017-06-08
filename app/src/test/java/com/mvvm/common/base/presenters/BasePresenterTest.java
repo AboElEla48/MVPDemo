@@ -1,5 +1,8 @@
 package com.mvvm.common.base.presenters;
 
+import com.mvvm.common.base.samples.SampleBasePresenter;
+import com.mvvm.common.base.samples.SampleBaseView;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

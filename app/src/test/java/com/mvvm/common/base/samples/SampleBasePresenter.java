@@ -1,6 +1,7 @@
-package com.mvvm.common.base.presenters;
+package com.mvvm.common.base.samples;
 
 import com.mvvm.common.annotation.ViewModel;
+import com.mvvm.common.base.presenters.BasePresenter;
 
 /**
  * Created by AboelelaA on 6/7/2017.

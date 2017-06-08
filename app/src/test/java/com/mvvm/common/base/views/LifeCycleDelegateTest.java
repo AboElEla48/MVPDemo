@@ -3,9 +3,9 @@ package com.mvvm.common.base.views;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.InvalidObject;
-import com.mvvm.common.base.presenters.SampleBasePresenter;
-import com.mvvm.common.base.presenters.SampleBaseView;
-import com.mvvm.common.base.presenters.SampleViewModel;
+import com.mvvm.common.base.samples.SampleBasePresenter;
+import com.mvvm.common.base.samples.SampleBaseView;
+import com.mvvm.common.base.samples.SampleViewModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 
 import org.junit.Assert;

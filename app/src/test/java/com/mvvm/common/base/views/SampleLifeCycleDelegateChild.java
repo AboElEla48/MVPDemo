@@ -1,7 +1,7 @@
 package com.mvvm.common.base.views;
 
 import com.mvvm.common.base.presenters.BasePresenter;
-import com.mvvm.common.base.presenters.SampleBasePresenter;
+import com.mvvm.common.base.samples.SampleBasePresenter;
 
 /**
  * Created by AboelelaA on 6/8/2017.

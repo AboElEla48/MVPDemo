@@ -1,4 +1,4 @@
-package com.mvvm.common.base.presenters;
+package com.mvvm.common.base.samples;
 
 import android.content.Intent;
 import android.os.Bundle;
