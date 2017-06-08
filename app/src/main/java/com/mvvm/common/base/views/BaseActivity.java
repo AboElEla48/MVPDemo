@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mvvm.common.base.scanners.LayoutIdScanner;
+import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
-import com.mvvm.common.interfaces.ViewLifeCycle;
 
 import butterknife.ButterKnife;
 
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * This is the parent activity
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseView, ViewLifeCycle
+public class BaseActivity extends AppCompatActivity implements BaseView, ActivityLifeCycle
 {
     private LifeCycleDelegate lifeCycleDelegate;
 
@@ -100,10 +100,5 @@ public class BaseActivity extends AppCompatActivity implements BaseView, ViewLif
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         lifeCycleDelegate.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        lifeCycleDelegate.onActivityCreated(savedInstanceState);
     }
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.mvvm.common.base.scanners.LayoutIdScanner;
 import com.mvvm.common.interfaces.BaseView;
-import com.mvvm.common.interfaces.ViewLifeCycle;
+import com.mvvm.common.interfaces.FragmentLifeCycle;
 
 import butterknife.ButterKnife;
 
@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * This is the parent fragment
  */
 
-public class BaseFragment extends Fragment implements BaseView, ViewLifeCycle
+public class BaseFragment extends Fragment implements BaseView, FragmentLifeCycle
 {
     private LifeCycleDelegate lifeCycleDelegate;
 

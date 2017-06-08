@@ -1,6 +1,5 @@
 package com.mvvm.common.interfaces;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -26,11 +25,9 @@ public interface ViewLifeCycle
 
     void onDestroy();
 
-    void onActivityResult(int requestCode, int resultCode, Intent data);
-
     void onSaveInstanceState(Bundle outState);
 
     void onRestoreInstanceState(Bundle savedInstanceState);
 
-    void onActivityCreated(@Nullable Bundle savedInstanceState);
+
 }

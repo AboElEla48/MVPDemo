@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.base.InvalidObject;
+import com.mvvm.common.base.creators.FieldTypeCreator;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
+import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
+import com.mvvm.common.interfaces.FragmentLifeCycle;
 import com.mvvm.common.interfaces.ViewLifeCycle;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 import io.reactivex.Observable;
@@ -26,14 +31,12 @@ import io.reactivex.functions.Predicate;
  * This is the object that will held in activities and fragments to pass view life cycle events to it
  */
 
-final class LifeCycleDelegate implements ViewLifeCycle
+class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
 {
-    private Class<?> hostViewClass;
     private WeakReference<ViewLifeCycle> hostObjectReference;
-    private BasePresenter presenter;
+    protected BasePresenter presenter;
 
     LifeCycleDelegate(Object hostViews) {
-        hostViewClass = hostViews.getClass();
         hostObjectReference = new WeakReference<>((ViewLifeCycle) hostViews);
     }
 
@@ -45,6 +48,14 @@ final class LifeCycleDelegate implements ViewLifeCycle
         }
 
         // Get presenter object by annotation
+        createFieldsAnnotatedAsPresenter(hostView, savedInstanceState);
+    }
+
+    /**
+     * Create presenter object
+     * @param hostView : the baseView object to get fields from
+     */
+    private void createFieldsAnnotatedAsPresenter(final BaseView hostView, @Nullable final Bundle savedInstanceState) {
         Observable.just(new FieldTypeScanner().apply(hostView.getClass().getDeclaredFields(), Presenter.class))
                 .filter(new Predicate<Object>()
                 {
@@ -53,26 +64,7 @@ final class LifeCycleDelegate implements ViewLifeCycle
                         return !(o instanceof InvalidObject);
                     }
                 })
-                .map(new Function<Object, Object>()
-                {
-                    @Override
-                    public Object apply(@NonNull Object presenterField) throws Exception {
-
-                        // Create object of presenter type class
-                        Constructor<?> presenterConstructor = ((Field) presenterField).getType().getDeclaredConstructor();
-                        presenterConstructor.setAccessible(true);
-                        presenter = (BasePresenter) presenterConstructor.newInstance();
-
-                        // pass base view to presenter
-                        presenter.initBaseView(hostView);
-
-                        // set presenter to view
-                        ((Field)presenterField).setAccessible(true);
-                        ((Field)presenterField).set(hostView, presenter);
-
-                        return presenter;
-                    }
-                })
+                .map(toPresenter(hostView))
                 .subscribe(new Consumer<Object>()
                 {
                     @Override
@@ -80,7 +72,36 @@ final class LifeCycleDelegate implements ViewLifeCycle
                         presenter.onCreate(savedInstanceState);
                     }
                 });
+    }
 
+    /**
+     * create Presenter
+     * @param hostView: the baseView object to get fields from
+     * @return : function to subscribe to it
+     */
+    Function<Object, Object> toPresenter(final BaseView hostView) {
+        return new Function<Object, Object>()
+        {
+            @Override
+            public Object apply(@NonNull Object presenterField) throws Exception {
+
+                // Create object of presenter type class
+                presenter = (BasePresenter)(new FieldTypeCreator().createFieldObject((Field) presenterField));
+
+                //                        Constructor<?> presenterConstructor = ((Field) presenterField).getType().getDeclaredConstructor();
+                //                        presenterConstructor.setAccessible(true);
+                //                        presenter = (BasePresenter) presenterConstructor.newInstance();
+
+                // pass base view to presenter
+                presenter.initBaseView(hostView);
+
+                // set presenter to view
+                ((Field) presenterField).setAccessible(true);
+                ((Field) presenterField).set(hostView, presenter);
+
+                return presenter;
+            }
+        };
     }
 
     @Override
@@ -126,6 +147,11 @@ final class LifeCycleDelegate implements ViewLifeCycle
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         presenter.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return presenter.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

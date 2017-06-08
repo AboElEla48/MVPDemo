@@ -1,0 +1,20 @@
+package com.mvvm.common.base.views;
+
+import com.mvvm.common.base.presenters.BasePresenter;
+
+/**
+ * Created by AboelelaA on 6/8/2017.
+ * Sample for life cycle delegate to add more getters
+ */
+
+class SampleLifeCycleDelegateChild extends LifeCycleDelegate
+{
+    SampleLifeCycleDelegateChild(Object hostViews) {
+        super(hostViews);
+    }
+
+    BasePresenter getPresenter()
+    {
+        return this.presenter;
+    }
+}
