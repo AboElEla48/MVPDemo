@@ -1,9 +1,11 @@
 package com.mvvm.common.base.views;
 
 import com.mvvm.common.annotation.Presenter;
+import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.InvalidObject;
 import com.mvvm.common.base.presenters.SampleBasePresenter;
 import com.mvvm.common.base.presenters.SampleBaseView;
+import com.mvvm.common.base.presenters.SampleViewModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 
 import org.junit.Assert;
@@ -41,6 +43,31 @@ public class LifeCycleDelegateTest
                         Assert.assertTrue(lifeCycleDelegate.getPresenter() instanceof SampleBasePresenter);
                     }
                 });
+    }
+
+    @Test
+    public void toViewMode_ReturnsViewModeObject() throws Exception {
+        SampleBaseView baseView = new SampleBaseView();
+        final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(baseView);
+
+        Observable.just(new FieldTypeScanner().apply(lifeCycleDelegate.getSampleBasePresenter().getClass().getDeclaredFields(), ViewModel.class))
+                .filter(new Predicate<Object>()
+                {
+                    @Override
+                    public boolean test(@NonNull Object o) throws Exception {
+                        return !(o instanceof InvalidObject);
+                    }
+                })
+                .map(lifeCycleDelegate.toViewModel(lifeCycleDelegate.getSampleBasePresenter()))
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        Assert.assertTrue(lifeCycleDelegate.getSampleBasePresenter().getSampleViewModel1() != null);
+                        Assert.assertTrue(lifeCycleDelegate.getSampleBasePresenter().getSampleViewModel1() instanceof SampleViewModel);
+                    }
+                });
+
     }
 
 }

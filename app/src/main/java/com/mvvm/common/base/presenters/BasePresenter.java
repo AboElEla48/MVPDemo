@@ -8,16 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.base.InvalidObject;
-import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.FragmentLifeCycle;
-
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Created by AboelelaA on 6/6/2017.
@@ -39,6 +32,20 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+//        // if this presenter for activity
+//        if (baseView instanceof ActivityLifeCycle) {
+//            createFieldsAnnotatedAsViewModels();
+//        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        createFieldsAnnotatedAsViewModels();
+        return null;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
     }
 
@@ -87,38 +94,10 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return null;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-    }
 
     public V getBaseView() {
         return baseView;
     }
 
-    /**
-     * Create View Models
-     */
-    private void createFieldsAnnotatedAsViewModels() {
-        Observable.just(new FieldTypeScanner().apply(getClass().getDeclaredFields(), ViewModel.class))
-                .filter(new Predicate<Object>()
-                {
-                    @Override
-                    public boolean test(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                        return (o != null) && !(o instanceof InvalidObject);
-                    }
-                })
-                .map(new Function<Object, Object>()
-                {
-                    @Override
-                    public Object apply(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                        return null;
-                    }
-                });
-    }
+
 }

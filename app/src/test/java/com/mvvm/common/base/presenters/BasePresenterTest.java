@@ -6,11 +6,12 @@ import org.junit.Test;
 
 /**
  * Created by AboelelaA on 6/7/2017.
+ * This is a test class ofr base presenter
  */
 public class BasePresenterTest
 {
-    SampleBaseView sampleBaseView;
-    SampleBasePresenter sampleBasePresenter;
+    private SampleBaseView sampleBaseView;
+    private SampleBasePresenter sampleBasePresenter;
 
     @Before
     public void init() throws Exception {

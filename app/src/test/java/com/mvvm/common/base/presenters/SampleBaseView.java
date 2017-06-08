@@ -1,18 +1,19 @@
 package com.mvvm.common.base.presenters;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.mvvm.common.annotation.Presenter;
+import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
-import com.mvvm.common.interfaces.ViewLifeCycle;
 
 /**
  * Created by AboelelaA on 6/7/2017.
  * Sample mock for Base view
  */
 
-public class SampleBaseView implements BaseView, ViewLifeCycle
+public class SampleBaseView implements BaseView, ActivityLifeCycle
 {
     @Presenter
     SampleBasePresenter presenterObject;
@@ -59,6 +60,11 @@ public class SampleBaseView implements BaseView, ViewLifeCycle
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 }
