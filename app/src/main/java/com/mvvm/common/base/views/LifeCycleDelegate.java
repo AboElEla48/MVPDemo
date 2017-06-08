@@ -58,12 +58,17 @@ final class LifeCycleDelegate implements ViewLifeCycle
                     @Override
                     public Object apply(@NonNull Object presenterField) throws Exception {
 
+                        // Create object of presenter type class
                         Constructor<?> presenterConstructor = ((Field) presenterField).getType().getDeclaredConstructor();
                         presenterConstructor.setAccessible(true);
                         presenter = (BasePresenter) presenterConstructor.newInstance();
 
                         // pass base view to presenter
                         presenter.initBaseView(hostView);
+
+                        // set presenter to view
+                        ((Field)presenterField).setAccessible(true);
+                        ((Field)presenterField).set(hostView, presenter);
 
                         return presenter;
                     }
