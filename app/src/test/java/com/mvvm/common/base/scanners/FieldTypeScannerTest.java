@@ -1,6 +1,6 @@
 package com.mvvm.common.base.scanners;
 
-import com.mvvm.common.annotation.Model;
+import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.InvalidObject;
@@ -23,7 +23,7 @@ import io.reactivex.functions.Predicate;
  */
 public class FieldTypeScannerTest
 {
-    @Model
+    @DataModel
     Long obj2 = 26L;
 
     @ViewModel
@@ -80,7 +80,7 @@ public class FieldTypeScannerTest
     private void apply_Models(FieldTypeScanner fieldTypeScanner, Field[] fields) throws Exception
     {
         // Extract Models
-        Observable.just(fieldTypeScanner.apply(fields, Model.class))
+        Observable.just(fieldTypeScanner.apply(fields, DataModel.class))
                 .filter(new Predicate<Object>()
                 {
                     @Override

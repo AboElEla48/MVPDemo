@@ -6,37 +6,52 @@
              tools:context="com.mvvm.mvvmdemo.login.LoginFragment">
 
     <TextView
-        android:text="Username: "
+        android:text="@string/txt_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="20dp"/>
+        android:textSize="@dimen/label_txt_size"/>
 
     <EditText
         android:id="@+id/login_fragment_user_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress"
+        android:hint="@string/txt_hint_username"
+        android:textColorHint="@color/hint_txt_color"/>
 
     <TextView
-        android:text="Password: "
+        android:text="@string/txt_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="20dp"/>
+        android:textSize="@dimen/label_txt_size"/>
 
     <EditText
         android:id="@+id/login_fragment_password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:hint="@string/txt_hint_password"
+        android:textColorHint="@color/hint_txt_color"/>
+
+    <TextView
+        android:id="@+id/login_fragment_error_message_text_view"
+        android:text="@string/txt_default_error_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/error_msg_txt_color"
+        android:visibility="gone"
+        android:textSize="@dimen/label_error_txt_size"/>
 
     <Button
         android:id="@+id/login_fragment_login_btn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Login"
+        android:text="@string/txt_login_command"
         android:textAllCaps="false"
         android:layout_marginTop="20dp"/>
 

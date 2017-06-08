@@ -4,6 +4,7 @@ package com.mvvm.mvvmdemo.login;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.mvvm.R;
 import com.mvvm.common.annotation.InflateLayout;
@@ -26,6 +27,9 @@ public class LoginFragment extends BaseFragment
 
     @BindView(R.id.login_fragment_login_btn)
     Button loginBtn;
+
+    @BindView(R.id.login_fragment_error_message_text_view)
+    TextView errorMessageTextView;
 
     public LoginFragment() {
         // Required empty public constructor
