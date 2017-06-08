@@ -32,15 +32,10 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-//        // if this presenter for activity
-//        if (baseView instanceof ActivityLifeCycle) {
-//            createFieldsAnnotatedAsViewModels();
-//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        createFieldsAnnotatedAsViewModels();
         return null;
     }
 
