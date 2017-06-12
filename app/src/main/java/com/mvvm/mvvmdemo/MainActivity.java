@@ -1,5 +1,6 @@
 package com.mvvm.mvvmdemo;
 
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mvvm.R;
@@ -17,5 +18,8 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.main_activity_title_text_view)
     TextView mainTitleTextView;
+
+    @BindView(R.id.main_activity_set_text_btn)
+    Button mainTextSetter;
 
 }

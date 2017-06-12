@@ -8,6 +8,8 @@ import com.mvvm.R;
 import com.mvvm.common.annotation.ViewModelTextField;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 
+import io.reactivex.subjects.PublishSubject;
+
 /**
  * Created by AboelelaA on 6/12/2017.
  * Define base View model for the activity
@@ -16,5 +18,9 @@ import com.mvvm.common.base.viewmodels.BaseViewModel;
 public class MainViewModel extends BaseViewModel
 {
     @ViewModelTextField(R.id.main_activity_title_text_view)
-    String activityTextView;
+    PublishSubject<String> activityTextViewValue;
+
+    public void setActivityTextViewValue(String value) {
+        this.activityTextViewValue.onNext(value);
+    }
 }

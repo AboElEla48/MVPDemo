@@ -11,6 +11,12 @@
         android:id="@+id/main_activity_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/main_activity_set_text_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set text in Activity"/>
     <FrameLayout
         android:id="@+id/main_frameLayout"
         android:layout_width="match_parent"

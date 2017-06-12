@@ -24,6 +24,7 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by AboelelaA on 6/6/2017.
@@ -111,7 +112,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
      * given the view model object, associate all values in ViewModel with views in BaseView
      * @param viewModel :  the created view model object for this presenter
      */
-    public void associateViewModelWithViews(BaseViewModel viewModel) {
+    public void associateViewModelWithViews(final BaseViewModel viewModel) {
         // Loop all fields defined in ViewModel
 
         // search for text view fields
@@ -122,13 +123,27 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                     public void accept(@io.reactivex.annotations.NonNull final Object viewModelFieldObject) throws Exception {
                         // get annotation of field
                         final int fieldResId = ((ViewModelTextField) ((Field) viewModelFieldObject).getDeclaredAnnotations()[0]).value();
+                        ((Field) viewModelFieldObject).setAccessible(true);
+
+                        // Create publish subject object to view model field
+                        ((Field) viewModelFieldObject).set(viewModel, PublishSubject.create());
+
                         getViewFieldOfResIdAndClass(TextView.class, fieldResId)
                                 .subscribe(new Consumer<View>()
                                 {
                                     @Override
                                     public void accept(@io.reactivex.annotations.NonNull View view) throws Exception {
-                                        TextView textView = (TextView) view;
-                                        textView.setText("String text here");
+                                        final TextView textView = (TextView) view;
+                                        ((PublishSubject<String>)((Field) viewModelFieldObject).get(viewModel))
+                                                .subscribe(new Consumer<String>()
+                                                {
+                                                    @Override
+                                                    public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
+
+                                                        // set text to text view
+                                                        textView.setText(s);
+                                                    }
+                                                });
                                     }
                                 });
                     }
