@@ -40,7 +40,7 @@ public class BaseFragment extends Fragment implements BaseView, FragmentLifeCycl
         int resourceId = new LayoutIdScanner().apply(this);
         View fragmentView = inflater.inflate(resourceId, container, false);
 
-        // pass lifecycle to view life cycle delegate
+        // pass lifecycle to baseView life cycle delegate
         lifeCycleDelegate = new LifeCycleDelegate(this);
         lifeCycleDelegate.onCreate(savedInstanceState);
 

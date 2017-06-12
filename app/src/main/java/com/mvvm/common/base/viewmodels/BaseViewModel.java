@@ -1,5 +1,7 @@
 package com.mvvm.common.base.viewmodels;
 
+import android.support.annotation.NonNull;
+
 import com.mvvm.common.interfaces.BaseView;
 
 /**
@@ -10,9 +12,10 @@ import com.mvvm.common.interfaces.BaseView;
 
 public class BaseViewModel
 {
-    private BaseView view;
+    protected BaseView baseView;
 
-    public void initView(BaseView view) {
-        this.view = view;
+    public void initView(@NonNull BaseView view) {
+        this.baseView = view;
     }
+
 }

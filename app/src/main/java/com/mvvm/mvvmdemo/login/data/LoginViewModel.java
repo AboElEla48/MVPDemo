@@ -4,7 +4,7 @@ import com.mvvm.common.base.viewmodels.BaseViewModel;
 
 /**
  * Created by AboelelaA on 6/7/2017.
- * This is the view model for login
+ * This is the baseView model for login
  */
 
 public class LoginViewModel extends BaseViewModel

@@ -8,9 +8,9 @@ import com.mvvm.common.base.samples.SampleBasePresenter;
  * Sample for life cycle delegate to add more getters
  */
 
-class SampleLifeCycleDelegateChild extends LifeCycleDelegate
+public class SampleLifeCycleDelegateChild extends LifeCycleDelegate
 {
-    SampleLifeCycleDelegateChild(Object hostViews) {
+    public SampleLifeCycleDelegateChild(Object hostViews) {
         super(hostViews);
     }
 

@@ -1,70 +1,37 @@
 package com.mvvm.common.base.samples;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.widget.TextView;
 
+import com.mvvm.R;
+import com.mvvm.common.annotation.InflateLayout;
 import com.mvvm.common.annotation.Presenter;
+import com.mvvm.common.base.views.BaseActivity;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
 
+import butterknife.BindView;
+
 /**
  * Created by AboelelaA on 6/7/2017.
- * Sample mock for Base view
+ * Sample mock for Base baseView
  */
 
-public class SampleBaseView implements BaseView, ActivityLifeCycle
+@InflateLayout(R.layout.activity_main)
+public class SampleBaseView extends BaseActivity implements BaseView, ActivityLifeCycle
 {
     @Presenter
     SampleBasePresenter presenterObject;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    @BindView(R.id.main_activity_title_text_view)
+    public TextView textView;
 
+    public SampleBasePresenter getPresenterObject() {
+        return presenterObject;
     }
 
-    @Override
-    public void onStart() {
-
-    }
-
-    @Override
-    public void onRestart() {
-
-    }
-
-    @Override
-    public void onResume() {
-
-    }
-
-    @Override
-    public void onPause() {
-
-    }
-
-    @Override
-    public void onStop() {
-
-    }
-
-    @Override
-    public void onDestroy() {
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+    public void tempInit()
+    {
+        textView = new TextView(null);
+        textView.setId(R.id.main_activity_title_text_view);
     }
 }

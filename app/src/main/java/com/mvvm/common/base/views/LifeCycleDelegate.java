@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) This code is written by Ahmed AboElEla (eng.a.aboelela@gmail.com). You can use it but please refer to Owner
+ */
+
 package com.mvvm.common.base.views;
 
 import android.content.Intent;
@@ -30,7 +34,7 @@ import io.reactivex.functions.Predicate;
 
 /**
  * Created by AboelelaA on 6/7/2017.
- * This is the object that will held in activities and fragments to pass view life cycle events to it
+ * This is the object that will held in activities and fragments to pass baseView life cycle events to it
  */
 
 class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
@@ -51,6 +55,8 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
 
         // Get presenter object by annotation
         createFieldsAnnotatedAsPresenter(hostView, savedInstanceState);
+
+        // Get View models by annotation
         createFieldsAnnotatedAsViewModels();
     }
 
@@ -89,12 +95,12 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
             public Object apply(@NonNull Object presenterField) throws Exception {
 
                 // Create object of presenter type class
-                presenter = (BasePresenter)(new FieldTypeCreator().createFieldObject((Field) presenterField));
+                presenter = (BasePresenter) (new FieldTypeCreator().createFieldObject((Field) presenterField));
 
-                // pass base view to presenter
+                // pass base baseView to presenter
                 presenter.initBaseView(hostView);
 
-                // set presenter to view
+                // set presenter to baseView
                 ((Field) presenterField).setAccessible(true);
                 ((Field) presenterField).set(hostView, presenter);
 
@@ -116,13 +122,7 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
                     }
                 })
                 .map(toViewModel(presenter))
-                .subscribe(new Consumer<Object>()
-                {
-                    @Override
-                    public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
-
-                    }
-                });
+                .subscribe();
 
     }
 
@@ -138,10 +138,37 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
                 ((Field) viewModelField).setAccessible(true);
                 ((Field) viewModelField).set(viewModelPresenter, viewModel);
 
+                // Associate all views in baseView model
+                viewModelPresenter.associateViewModelWithViews(viewModel);
+
+
                 return viewModel;
             }
         };
     }
+//
+//    /**
+//     * Create all fields annotate in ViewModel
+//     */
+//    void createViewModelFields(BaseViewModel viewModel) {
+//        Observable.just(new FieldTypeScanner().apply(viewModel.getClass().getDeclaredFields(), ViewModelTextField.class))
+//                .filter(new Predicate<Object>()
+//                {
+//                    @Override
+//                    public boolean test(@io.reactivex.annotations.NonNull Object o) throws Exception {
+//                        return (o != null) && !(o instanceof InvalidObject);
+//                    }
+//                })
+//                .map(new Function<Object, Object>()
+//                {
+//                    @Override
+//                    public Object apply(@io.reactivex.annotations.NonNull Object viewModelFieldField) throws Exception {
+//                        ((ViewModelTextField)((Field)viewModelFieldField).getDeclaredAnnotations()[0]).value();
+//                        return null;
+//                    }
+//                })
+//                .subscribe();
+//    }
 
     @Override
     public void onStart() {

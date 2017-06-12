@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView, Activit
         // Bind views
         ButterKnife.bind(this);
 
-        // pass lifecycle to view life cycle delegate
+        // pass lifecycle to baseView life cycle delegate
         lifeCycleDelegate = new LifeCycleDelegate(this);
         lifeCycleDelegate.onCreate(savedInstanceState);
     }
