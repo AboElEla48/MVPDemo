@@ -3,15 +3,11 @@ package com.mvvm.common.base.views;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.InvalidObject;
-import com.mvvm.common.base.samples.SampleBaseView;
-import com.mvvm.common.base.samples.SampleViewModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
-import com.mvvm.common.utils.MyLog;
 import com.mvvm.mvvmdemo.MainActivity;
 import com.mvvm.mvvmdemo.MainPresenter;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
@@ -26,11 +22,11 @@ import io.reactivex.functions.Predicate;
  */
 public class LifeCycleDelegateTest
 {
-    @Before
-    public void mockAllNeedeObjects() throws Exception{
-        PowerMockito.spy(MyLog.class);
-        PowerMockito.doNothing().when(MyLog.class, PowerMockito.method(MyLog.class, "logError", String.class, String.class, Throwable.class));
-    }
+//    @Before
+//    public void mockAllNeededObjects() throws Exception {
+//        PowerMockito.spy(MyLog.class);
+//        PowerMockito.doNothing().when(MyLog.class, PowerMockito.method(MyLog.class, "logError", String.class, String.class, Throwable.class));
+//    }
 
     @Test
     public void toPresenter_ReturnsPresenterObject() throws Exception {
@@ -58,26 +54,48 @@ public class LifeCycleDelegateTest
 
     @Test
     public void toViewMode_ReturnsViewModeObject() throws Exception {
-        SampleBaseView baseView = new SampleBaseView();
-        final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(baseView);
+        MainActivityChild mainActivity = PowerMockito.mock(MainActivityChild.class);
+        final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(mainActivity);
 
-        Observable.just(new FieldTypeScanner().apply(lifeCycleDelegate.getSampleBasePresenter().getClass().getDeclaredFields(), ViewModel.class))
+        Observable.just(new FieldTypeScanner().apply(MainActivityChild.class.getDeclaredFields(), Presenter.class))
                 .filter(new Predicate<Object>()
                 {
                     @Override
                     public boolean test(@NonNull Object o) throws Exception {
+                        Assert.assertTrue(!(o instanceof InvalidObject));
                         return !(o instanceof InvalidObject);
                     }
                 })
-                .map(lifeCycleDelegate.toViewModel(lifeCycleDelegate.getSampleBasePresenter()))
+                .map(lifeCycleDelegate.toPresenter(mainActivity))
                 .subscribe(new Consumer<Object>()
                 {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        Assert.assertTrue(lifeCycleDelegate.getSampleBasePresenter().getSampleViewModel1() != null);
-                        Assert.assertTrue(lifeCycleDelegate.getSampleBasePresenter().getSampleViewModel1() instanceof SampleViewModel);
+                        Assert.assertTrue(lifeCycleDelegate.getPresenter() instanceof MainActivityPresenterChild);
+
+                        // Create view models
+                        Observable.just(new FieldTypeScanner().apply(MainActivityPresenterChild.class.getDeclaredFields(), ViewModel.class))
+                                .filter(new Predicate<Object>()
+                                {
+                                    @Override
+                                    public boolean test(@NonNull Object o) throws Exception {
+                                        Assert.assertTrue(!(o instanceof InvalidObject));
+                                        return !(o instanceof InvalidObject);
+                                    }
+                                })
+                                .map(lifeCycleDelegate.toViewModel(lifeCycleDelegate.getPresenter()))
+                                .subscribe(new Consumer<Object>()
+                                {
+                                    @Override
+                                    public void accept(@NonNull Object o) throws Exception {
+                                        Assert.assertTrue(((MainActivityPresenterChild) lifeCycleDelegate.getPresenter()).getMainViewModel() != null);
+                                        Assert.assertTrue(((MainActivityPresenterChild) lifeCycleDelegate.getPresenter()).getMainViewModel() instanceof MainActivityViewModelChild);
+                                    }
+                                });
                     }
                 });
+
+
 
     }
 
