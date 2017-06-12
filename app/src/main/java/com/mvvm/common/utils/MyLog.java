@@ -1,7 +1,5 @@
 package com.mvvm.common.utils;
 
-import android.util.Log;
-
 /**
  * Created by AboelelaA on 6/6/2017.
  *
@@ -13,7 +11,7 @@ public class MyLog
 
     public static void logError(String tag, String message, Throwable e)
     {
-        Log.e(tag, message, e);
+//        Log.e(tag, message, e);
     }
 
 }

@@ -3,13 +3,16 @@ package com.mvvm.common.base.views;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.InvalidObject;
-import com.mvvm.common.base.samples.SampleBasePresenter;
 import com.mvvm.common.base.samples.SampleBaseView;
 import com.mvvm.common.base.samples.SampleViewModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
+import com.mvvm.common.utils.MyLog;
+import com.mvvm.mvvmdemo.MainActivity;
+import com.mvvm.mvvmdemo.MainPresenter;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.powermock.api.mockito.PowerMockito;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -22,25 +25,32 @@ import io.reactivex.functions.Predicate;
  */
 public class LifeCycleDelegateTest
 {
+
     @Test
     public void toPresenter_ReturnsPresenterObject() throws Exception {
-        SampleBaseView baseView = new SampleBaseView();
-        final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(baseView);
+        PowerMockito.spy(MyLog.class);
+        PowerMockito.doNothing().when(MyLog.class, PowerMockito.method(MyLog.class, "logError", String.class, String.class, Throwable.class));
 
-        Observable.just(new FieldTypeScanner().apply(baseView.getClass().getDeclaredFields(), Presenter.class))
+        MainActivity mainActivity = PowerMockito.mock(MainActivity.class);
+
+        //        SampleBaseView baseView = new SampleBaseView();
+        final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(mainActivity);
+
+        Observable.just(new FieldTypeScanner().apply(MainActivity.class.getDeclaredFields(), Presenter.class))
                 .filter(new Predicate<Object>()
                 {
                     @Override
                     public boolean test(@NonNull Object o) throws Exception {
+                        Assert.assertTrue(!(o instanceof InvalidObject));
                         return !(o instanceof InvalidObject);
                     }
                 })
-                .map(lifeCycleDelegate.toPresenter(baseView))
+                .map(lifeCycleDelegate.toPresenter(mainActivity))
                 .subscribe(new Consumer<Object>()
                 {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        Assert.assertTrue(lifeCycleDelegate.getPresenter() instanceof SampleBasePresenter);
+                        Assert.assertTrue(lifeCycleDelegate.getPresenter() instanceof MainPresenter);
                     }
                 });
     }

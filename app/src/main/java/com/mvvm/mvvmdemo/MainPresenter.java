@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
-import com.mvvm.R;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.mvvmdemo.data.MainViewModel;
-import com.mvvm.mvvmdemo.login.LoginFragment;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -18,7 +16,7 @@ import io.reactivex.functions.Consumer;
  * Presenter for Main activity
  */
 
-class MainPresenter extends BasePresenter<MainActivity>
+public class MainPresenter extends BasePresenter<MainActivity>
 {
     @ViewModel
     MainViewModel mainViewModel;
@@ -36,10 +34,7 @@ class MainPresenter extends BasePresenter<MainActivity>
                     }
                 });
 
-        // need to set the text here to text baseView in activity
-//        getBaseView().mainTitleTextView.setText("This text is set from Presenter");
-
         // set login fragment
-        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
+//        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
     }
 }

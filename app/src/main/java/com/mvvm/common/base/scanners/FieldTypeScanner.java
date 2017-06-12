@@ -35,7 +35,7 @@ public class FieldTypeScanner implements BiFunction<Field[], Class<?>, Object>
             }
         }
 
-        MyLog.logError("LayoutIdScanner", "LayoutIdScanner Exception",
+        MyLog.logError("FieldTypeScanner", "LayoutIdScanner Exception",
                 new UnsupportedOperationException(LayoutIdScanner.class.getSimpleName() + " Not declared"));
 
         return new InvalidObject();
