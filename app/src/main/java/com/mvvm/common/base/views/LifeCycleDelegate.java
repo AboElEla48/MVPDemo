@@ -146,29 +146,6 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
             }
         };
     }
-//
-//    /**
-//     * Create all fields annotate in ViewModel
-//     */
-//    void createViewModelFields(BaseViewModel viewModel) {
-//        Observable.just(new FieldTypeScanner().apply(viewModel.getClass().getDeclaredFields(), ViewModelTextField.class))
-//                .filter(new Predicate<Object>()
-//                {
-//                    @Override
-//                    public boolean test(@io.reactivex.annotations.NonNull Object o) throws Exception {
-//                        return (o != null) && !(o instanceof InvalidObject);
-//                    }
-//                })
-//                .map(new Function<Object, Object>()
-//                {
-//                    @Override
-//                    public Object apply(@io.reactivex.annotations.NonNull Object viewModelFieldField) throws Exception {
-//                        ((ViewModelTextField)((Field)viewModelFieldField).getDeclaredAnnotations()[0]).value();
-//                        return null;
-//                    }
-//                })
-//                .subscribe();
-//    }
 
     @Override
     public void onStart() {
