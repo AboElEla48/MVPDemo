@@ -11,6 +11,7 @@ import com.mvvm.mvvmdemo.MainActivity;
 import com.mvvm.mvvmdemo.MainPresenter;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
@@ -25,15 +26,15 @@ import io.reactivex.functions.Predicate;
  */
 public class LifeCycleDelegateTest
 {
+    @Before
+    public void mockAllNeedeObjects() throws Exception{
+        PowerMockito.spy(MyLog.class);
+        PowerMockito.doNothing().when(MyLog.class, PowerMockito.method(MyLog.class, "logError", String.class, String.class, Throwable.class));
+    }
 
     @Test
     public void toPresenter_ReturnsPresenterObject() throws Exception {
-        PowerMockito.spy(MyLog.class);
-        PowerMockito.doNothing().when(MyLog.class, PowerMockito.method(MyLog.class, "logError", String.class, String.class, Throwable.class));
-
         MainActivity mainActivity = PowerMockito.mock(MainActivity.class);
-
-        //        SampleBaseView baseView = new SampleBaseView();
         final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(mainActivity);
 
         Observable.just(new FieldTypeScanner().apply(MainActivity.class.getDeclaredFields(), Presenter.class))
