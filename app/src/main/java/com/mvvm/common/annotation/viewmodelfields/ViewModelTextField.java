@@ -1,4 +1,8 @@
-package com.mvvm.common.annotation;
+/*
+ * Copyright (c) This code is written by Ahmed AboElEla (eng.a.aboelela@gmail.com). You can use it but please refer to Owner
+ */
+
+package com.mvvm.common.annotation.viewmodelfields;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

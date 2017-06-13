@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mvvm.common.annotation.ViewModelTextField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
@@ -17,6 +17,7 @@ import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.FragmentLifeCycle;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,12 +37,15 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 {
     private V baseView;
 
+    private ArrayList<PublishSubject<Object>> allViewModelsFields;
+
     /**
      * init base baseView object
      * @param baseView: this is te base baseView that will be accessed from presenter
      */
     public void initBaseView(@NonNull V baseView) {
         this.baseView = baseView;
+        allViewModelsFields = new ArrayList<>();
     }
 
     @Override
@@ -86,6 +90,15 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     @Override
     public void onDestroy() {
 
+        // Destroy all publish subjects
+        Observable.fromIterable(allViewModelsFields)
+                .subscribe(new Consumer<PublishSubject<Object>>()
+                {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull PublishSubject<Object> publishSubject) throws Exception {
+                        publishSubject.onComplete();
+                    }
+                });
     }
 
     @Override
@@ -132,6 +145,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
                                         // Create publish subject object to view model field
                                         viewModelFieldObject.set(viewModel, PublishSubject.create());
+                                        allViewModelsFields.add((PublishSubject<Object>)viewModelFieldObject.get(viewModel));
 
                                         getViewFieldOfResIdAndClass(TextView.class, fieldResId)
                                                 .subscribe(new Consumer<View>()
