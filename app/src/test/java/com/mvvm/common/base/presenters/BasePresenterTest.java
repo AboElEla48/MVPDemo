@@ -33,43 +33,43 @@ public class BasePresenterTest
         mainActivity = PowerMockito.mock(MainActivityChild.class);
         mainPresenter = new MainActivityPresenterChild();
         mainPresenter.initBaseView(mainActivity);
-//        mainPresenter = PowerMockito.mock(MainActivityPresenterChild.class);
-//        PowerMockito.when(mainPresenter.getClass().getDeclaredMethod("getViewModelFieldsOfAnnotationType", BaseViewModel.class,
-//                Class.class)).thenCallRealMethod();
+        //        mainPresenter = PowerMockito.mock(MainActivityPresenterChild.class);
+        //        PowerMockito.when(mainPresenter.getClass().getDeclaredMethod("getViewModelFieldsOfAnnotationType", BaseViewModel.class,
+        //                Class.class)).thenCallRealMethod();
     }
 
-        @Test
-        public void getViewFieldOfResIdAndClass_returnsView() {
-            final MainActivityViewModelChild mainActivityViewModelChild = new MainActivityViewModelChild();
-            mainActivityViewModelChild.initView(mainActivity);
+    @Test
+    public void getViewFieldOfResIdAndClass_returnsView() {
+        final MainActivityViewModelChild mainActivityViewModelChild = new MainActivityViewModelChild();
+        mainActivityViewModelChild.initView(mainActivity);
 
-            // search for text view fields
-            mainPresenter.getViewModelFieldsOfAnnotationType(mainActivityViewModelChild, ViewModelTextField.class)
-                    .subscribe(new Consumer<List<Field>>()
-                    {
-                        @Override
-                        public void accept(@io.reactivex.annotations.NonNull final List<Field> viewModelFieldObjects) throws Exception {
-                            Observable.fromIterable(viewModelFieldObjects)
-                                    .subscribe(new Consumer<Field>()
-                                    {
-                                        @Override
-                                        public void accept(@NonNull Field viewModelFieldObject) throws Exception {
-                                            // get annotation of field
-                                            final int fieldResId = ((ViewModelTextField) viewModelFieldObject.getDeclaredAnnotations()[0]).value();
-                                            viewModelFieldObject.setAccessible(true);
+        // search for text view fields
+        mainPresenter.getViewModelFieldsOfAnnotationType(mainActivityViewModelChild, ViewModelTextField.class)
+                .subscribe(new Consumer<List<Field>>()
+                {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull final List<Field> viewModelFieldObjects) throws Exception {
+                        Observable.fromIterable(viewModelFieldObjects)
+                                .subscribe(new Consumer<Field>()
+                                {
+                                    @Override
+                                    public void accept(@NonNull Field viewModelFieldObject) throws Exception {
+                                        // get annotation of field
+                                        final int fieldResId = ((ViewModelTextField) viewModelFieldObject.getDeclaredAnnotations()[0]).value();
+                                        viewModelFieldObject.setAccessible(true);
 
-                                            // Create publish subject object to view model field
-                                            viewModelFieldObject.set(mainActivityViewModelChild, PublishSubject.create());
+                                        // Create publish subject object to view model field
+                                        viewModelFieldObject.set(mainActivityViewModelChild, PublishSubject.create());
 
-                                            Assert.assertTrue(viewModelFieldObject.get(mainActivityViewModelChild) instanceof PublishSubject);
-                                            Assert.assertTrue(fieldResId > 0);
-                                        }
-                                    });
+                                        Assert.assertTrue(viewModelFieldObject.get(mainActivityViewModelChild) instanceof PublishSubject);
+                                        Assert.assertTrue(fieldResId > 0);
+                                    }
+                                });
 
 
-                        }
-                    });
+                    }
+                });
 
-        }
+    }
 
 }
