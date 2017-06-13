@@ -79,7 +79,7 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
      * @param hostView: the baseView object to get fields from
      * @return : function to subscribe to it
      */
-    private Function<Field, BasePresenter> toPresenter(final BaseView hostView) {
+    Function<Field, BasePresenter> toPresenter(final BaseView hostView) {
         return new Function<Field, BasePresenter>()
         {
             @Override
