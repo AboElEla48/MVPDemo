@@ -5,8 +5,11 @@
 package com.mvvm.common.base.views;
 
 import com.mvvm.common.annotation.ViewModel;
+import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.mvvmdemo.MainPresenter;
 import com.mvvm.mvvmdemo.data.MainViewModel;
+
+import io.reactivex.Observable;
 
 /**
  * Created by AboelelaA on 6/13/2017.
@@ -20,5 +23,16 @@ public class MainActivityPresenterChild extends MainPresenter
 
     MainViewModel getMainViewModel() {
         return mainViewModel;
+    }
+
+    @Override
+    public Observable getViewFieldOfResIdAndClass(final Class clz, final int resId) {
+        return super.getViewFieldOfResIdAndClass(clz, resId);
+    }
+
+    @Override
+    public Observable getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType)
+    {
+        return super.getViewModelFieldsOfAnnotationType(viewModel, annotationType);
     }
 }

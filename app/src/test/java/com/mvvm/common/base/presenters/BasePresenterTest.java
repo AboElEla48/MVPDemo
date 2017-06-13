@@ -1,21 +1,20 @@
 package com.mvvm.common.base.presenters;
 
-import android.widget.TextView;
-
-import com.mvvm.R;
 import com.mvvm.common.annotation.ViewModelTextField;
-import com.mvvm.common.base.samples.SampleBasePresenter;
-import com.mvvm.common.base.samples.SampleBaseView;
-import com.mvvm.common.base.views.SampleLifeCycleDelegateChild;
+import com.mvvm.common.base.views.MainActivityChild;
+import com.mvvm.common.base.views.MainActivityPresenterChild;
+import com.mvvm.common.base.views.MainActivityViewModelChild;
 
-import org.junit.Assert;
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.powermock.api.mockito.PowerMockito;
 
 import java.lang.reflect.Field;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by AboelelaA on 6/7/2017.
@@ -23,59 +22,43 @@ import io.reactivex.functions.Consumer;
  */
 public class BasePresenterTest
 {
-    private SampleBaseView sampleBaseView;
-    private SampleBasePresenter sampleBasePresenter;
+    private MainActivityChild mainActivity;
+    private MainActivityPresenterChild mainPresenter;
 
     @Before
     public void init() throws Exception {
-
-        sampleBaseView = new SampleBaseView();
-//        sampleBaseView.onCreate(null);
-//        sampleBaseView.tempInit();
-        final SampleLifeCycleDelegateChild lifeCycleDelegate = new SampleLifeCycleDelegateChild(sampleBaseView);
-        lifeCycleDelegate.onCreate(null);
-
-        sampleBasePresenter = sampleBaseView.getPresenterObject();
-
-//        sampleBasePresenter.initBaseView(sampleBaseView);
-        //                sampleBasePresenter.onCreate(null);
-        //                sampleBasePresenter.onStart();
-        //        sampleBasePresenter.onResume();
+        mainActivity = PowerMockito.mock(MainActivityChild.class);
+        mainPresenter = new MainActivityPresenterChild();
+        mainPresenter.initBaseView(mainActivity);
+//        mainPresenter = PowerMockito.mock(MainActivityPresenterChild.class);
+//        PowerMockito.when(mainPresenter.getClass().getDeclaredMethod("getViewModelFieldsOfAnnotationType", BaseViewModel.class,
+//                Class.class)).thenCallRealMethod();
     }
 
-    @Test
-    public void initBaseView_NoNull() {
-        Assert.assertTrue(sampleBasePresenter.getBaseView() != null);
-        Assert.assertTrue(sampleBasePresenter.getBaseView() instanceof SampleBaseView);
-    }
+        @Test
+        public void getViewFieldOfResIdAndClass_returnsView() {
+            final MainActivityViewModelChild mainActivityViewModelChild = new MainActivityViewModelChild();
+            mainActivityViewModelChild.initView(mainActivity);
 
+            // search for text view fields
+            mainPresenter.getViewModelFieldsOfAnnotationType(mainActivityViewModelChild, ViewModelTextField.class)
+                    .subscribe(new Consumer<Object>()
+                    {
+                        @Override
+                        public void accept(@io.reactivex.annotations.NonNull final Object viewModelFieldObject) throws Exception {
+                            // get annotation of field
+                            final int fieldResId = ((ViewModelTextField) ((Field) viewModelFieldObject).getDeclaredAnnotations()[0]).value();
+                            ((Field) viewModelFieldObject).setAccessible(true);
 
-    @Test
-    public void getViewModelFieldsOfAnnotationType_ReturnsTextView() {
-        sampleBasePresenter.getViewModelFieldsOfAnnotationType(sampleBasePresenter.getSampleViewModel1(), ViewModelTextField.class)
-                .subscribe(new Consumer()
-                {
-                    @Override
-                    public void accept(@NonNull Object viewModelFieldObject) throws Exception {
-                        final int fieldResId = ((ViewModelTextField) ((Field) viewModelFieldObject).getDeclaredAnnotations()[0]).value();
-                        Assert.assertTrue(fieldResId == R.id.main_activity_title_text_view);
-                    }
-                });
-    }
+                            // Create publish subject object to view model field
+                            ((Field) viewModelFieldObject).set(mainActivityViewModelChild, PublishSubject.create());
 
-    @Test
-    public void getViewFieldOfResId_ReturnsSameTextView() {
-        sampleBasePresenter.getViewFieldOfResIdAndClass(TextView.class, R.id.main_activity_title_text_view)
-                .subscribe(new Consumer<Field>()
-                {
-                    @Override
-                    public void accept(@NonNull Field field) throws Exception {
-                        field.setAccessible(true);
-                        TextView textView = (TextView) field.get(sampleBasePresenter);
-                        Assert.assertTrue(textView != null);
-                    }
-                });
-    }
+                            Assert.assertTrue(((Field) viewModelFieldObject).get(mainActivityViewModelChild) instanceof PublishSubject);
+                            Assert.assertTrue(fieldResId > 0);
 
+                        }
+                    });
+
+        }
 
 }

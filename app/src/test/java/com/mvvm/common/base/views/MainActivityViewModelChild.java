@@ -4,7 +4,11 @@
 
 package com.mvvm.common.base.views;
 
+import com.mvvm.R;
+import com.mvvm.common.annotation.ViewModelTextField;
 import com.mvvm.mvvmdemo.data.MainViewModel;
+
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by AboelelaA on 6/13/2017.
@@ -12,6 +16,8 @@ import com.mvvm.mvvmdemo.data.MainViewModel;
  *
  */
 
-class MainActivityViewModelChild extends MainViewModel
+public class MainActivityViewModelChild extends MainViewModel
 {
+    @ViewModelTextField(R.id.main_activity_title_text_view)
+    PublishSubject<String> activityTextViewValue;
 }
