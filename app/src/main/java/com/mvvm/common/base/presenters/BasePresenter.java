@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mvvm.common.annotation.ViewModelTextField;
-import com.mvvm.common.base.InvalidObject;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
@@ -19,6 +18,7 @@ import com.mvvm.common.interfaces.FragmentLifeCycle;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -117,31 +117,38 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
         // search for text view fields
         getViewModelFieldsOfAnnotationType(viewModel, ViewModelTextField.class)
-                .subscribe(new Consumer<Object>()
+                .subscribe(new Consumer<List<Field>>()
                 {
                     @Override
-                    public void accept(@io.reactivex.annotations.NonNull final Object viewModelFieldObject) throws Exception {
-                        // get annotation of field
-                        final int fieldResId = ((ViewModelTextField) ((Field) viewModelFieldObject).getDeclaredAnnotations()[0]).value();
-                        ((Field) viewModelFieldObject).setAccessible(true);
-
-                        // Create publish subject object to view model field
-                        ((Field) viewModelFieldObject).set(viewModel, PublishSubject.create());
-
-                        getViewFieldOfResIdAndClass(TextView.class, fieldResId)
-                                .subscribe(new Consumer<View>()
+                    public void accept(@io.reactivex.annotations.NonNull final List<Field> viewModelFieldObjects) throws Exception {
+                        Observable.fromIterable(viewModelFieldObjects)
+                                .subscribe(new Consumer<Field>()
                                 {
                                     @Override
-                                    public void accept(@io.reactivex.annotations.NonNull View view) throws Exception {
-                                        final TextView textView = (TextView) view;
-                                        ((PublishSubject<String>)((Field) viewModelFieldObject).get(viewModel))
-                                                .subscribe(new Consumer<String>()
+                                    public void accept(@io.reactivex.annotations.NonNull final Field viewModelFieldObject) throws Exception {
+                                        // get annotation of field
+                                        final int fieldResId = ((ViewModelTextField) viewModelFieldObject.getDeclaredAnnotations()[0]).value();
+                                        viewModelFieldObject.setAccessible(true);
+
+                                        // Create publish subject object to view model field
+                                        viewModelFieldObject.set(viewModel, PublishSubject.create());
+
+                                        getViewFieldOfResIdAndClass(TextView.class, fieldResId)
+                                                .subscribe(new Consumer<View>()
                                                 {
                                                     @Override
-                                                    public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
+                                                    public void accept(@io.reactivex.annotations.NonNull View view) throws Exception {
+                                                        final TextView textView = (TextView) view;
+                                                        ((PublishSubject<String>)  viewModelFieldObject.get(viewModel))
+                                                                .subscribe(new Consumer<String>()
+                                                                {
+                                                                    @Override
+                                                                    public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
 
-                                                        // set text to text view
-                                                        textView.setText(s);
+                                                                        // set text to text view
+                                                                        textView.setText(s);
+                                                                    }
+                                                                });
                                                     }
                                                 });
                                     }
@@ -150,13 +157,13 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 });
     }
 
-    protected Observable getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType) {
+    protected Observable<List<Field>> getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType) {
         return Observable.just(new FieldTypeScanner().apply(viewModel.getClass().getDeclaredFields(), annotationType))
-                .filter(new Predicate<Object>()
+                .filter(new Predicate<List<Field>>()
                 {
                     @Override
-                    public boolean test(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                        return !(o instanceof InvalidObject);
+                    public boolean test(@io.reactivex.annotations.NonNull List<Field> fields) throws Exception {
+                        return fields.size() > 0;
                     }
                 });
     }

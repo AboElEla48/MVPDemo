@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.base.InvalidObject;
 import com.mvvm.common.base.creators.FieldTypeCreator;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
@@ -30,7 +29,6 @@ import java.lang.reflect.Field;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Created by AboelelaA on 6/7/2017.
@@ -65,14 +63,7 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
      * @param hostView : the baseView object to get fields from
      */
     private void createFieldsAnnotatedAsPresenter(final BaseView hostView, @Nullable final Bundle savedInstanceState) {
-        Observable.just(new FieldTypeScanner().apply(hostView.getClass().getDeclaredFields(), Presenter.class))
-                .filter(new Predicate<Object>()
-                {
-                    @Override
-                    public boolean test(@NonNull Object o) throws Exception {
-                        return !(o instanceof InvalidObject);
-                    }
-                })
+        Observable.fromIterable(new FieldTypeScanner().apply(hostView.getClass().getDeclaredFields(), Presenter.class))
                 .map(toPresenter(hostView))
                 .subscribe(new Consumer<Object>()
                 {
@@ -88,23 +79,24 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
      * @param hostView: the baseView object to get fields from
      * @return : function to subscribe to it
      */
-    public Function<Object, Object> toPresenter(final BaseView hostView) {
-        return new Function<Object, Object>()
+    private Function<Field, BasePresenter> toPresenter(final BaseView hostView) {
+        return new Function<Field, BasePresenter>()
         {
             @Override
-            public Object apply(@NonNull Object presenterField) throws Exception {
+            public BasePresenter apply(@NonNull Field presenterField) throws Exception {
 
                 // Create object of presenter type class
-                presenter = (BasePresenter) (new FieldTypeCreator().createFieldObject((Field) presenterField));
+                presenter = (BasePresenter) (new FieldTypeCreator().createFieldObject(presenterField));
 
                 // pass base baseView to presenter
                 presenter.initBaseView(hostView);
 
                 // set presenter to baseView
-                ((Field) presenterField).setAccessible(true);
-                ((Field) presenterField).set(hostView, presenter);
+                presenterField.setAccessible(true);
+                presenterField.set(hostView, presenter);
 
                 return presenter;
+
             }
         };
     }
@@ -113,30 +105,23 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
      * Create View Models
      */
     private void createFieldsAnnotatedAsViewModels() {
-        Observable.just(new FieldTypeScanner().apply(presenter.getClass().getDeclaredFields(), ViewModel.class))
-                .filter(new Predicate<Object>()
-                {
-                    @Override
-                    public boolean test(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                        return (o != null) && !(o instanceof InvalidObject);
-                    }
-                })
+        Observable.fromIterable(new FieldTypeScanner().apply(presenter.getClass().getDeclaredFields(), ViewModel.class))
                 .map(toViewModel(presenter))
                 .subscribe();
 
     }
 
-    Function<Object, Object> toViewModel(final BasePresenter viewModelPresenter) {
-        return new Function<Object, Object>()
+    Function<Field, BaseViewModel> toViewModel(final BasePresenter viewModelPresenter) {
+        return new Function<Field, BaseViewModel>()
         {
             @Override
-            public Object apply(@io.reactivex.annotations.NonNull Object viewModelField) throws Exception {
-                BaseViewModel viewModel = (BaseViewModel) new FieldTypeCreator().createFieldObject((Field) viewModelField);
+            public BaseViewModel apply(@io.reactivex.annotations.NonNull Field viewModelField) throws Exception {
+                BaseViewModel viewModel = (BaseViewModel) new FieldTypeCreator().createFieldObject(viewModelField);
 
                 viewModel.initView(viewModelPresenter.getBaseView());
 
-                ((Field) viewModelField).setAccessible(true);
-                ((Field) viewModelField).set(viewModelPresenter, viewModel);
+                viewModelField.setAccessible(true);
+                viewModelField.set(viewModelPresenter, viewModel);
 
                 // Associate all views in baseView model
                 viewModelPresenter.associateViewModelWithViews(viewModel);

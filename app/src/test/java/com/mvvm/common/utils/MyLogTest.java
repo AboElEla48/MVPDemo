@@ -24,6 +24,8 @@ public class MyLogTest
         PowerMockito.mockStatic(MyLog.class);
         PowerMockito.doNothing().when(MyLog.class, "logError", tag, message, ex);
 
+        MyLog.logError("String", "String", new UnsupportedOperationException());
+
     }
 
 }

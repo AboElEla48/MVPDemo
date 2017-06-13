@@ -12,7 +12,10 @@ import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
@@ -42,19 +45,27 @@ public class BasePresenterTest
 
             // search for text view fields
             mainPresenter.getViewModelFieldsOfAnnotationType(mainActivityViewModelChild, ViewModelTextField.class)
-                    .subscribe(new Consumer<Object>()
+                    .subscribe(new Consumer<List<Field>>()
                     {
                         @Override
-                        public void accept(@io.reactivex.annotations.NonNull final Object viewModelFieldObject) throws Exception {
-                            // get annotation of field
-                            final int fieldResId = ((ViewModelTextField) ((Field) viewModelFieldObject).getDeclaredAnnotations()[0]).value();
-                            ((Field) viewModelFieldObject).setAccessible(true);
+                        public void accept(@io.reactivex.annotations.NonNull final List<Field> viewModelFieldObjects) throws Exception {
+                            Observable.fromIterable(viewModelFieldObjects)
+                                    .subscribe(new Consumer<Field>()
+                                    {
+                                        @Override
+                                        public void accept(@NonNull Field viewModelFieldObject) throws Exception {
+                                            // get annotation of field
+                                            final int fieldResId = ((ViewModelTextField) viewModelFieldObject.getDeclaredAnnotations()[0]).value();
+                                            viewModelFieldObject.setAccessible(true);
 
-                            // Create publish subject object to view model field
-                            ((Field) viewModelFieldObject).set(mainActivityViewModelChild, PublishSubject.create());
+                                            // Create publish subject object to view model field
+                                            viewModelFieldObject.set(mainActivityViewModelChild, PublishSubject.create());
 
-                            Assert.assertTrue(((Field) viewModelFieldObject).get(mainActivityViewModelChild) instanceof PublishSubject);
-                            Assert.assertTrue(fieldResId > 0);
+                                            Assert.assertTrue(viewModelFieldObject.get(mainActivityViewModelChild) instanceof PublishSubject);
+                                            Assert.assertTrue(fieldResId > 0);
+                                        }
+                                    });
+
 
                         }
                     });

@@ -3,7 +3,6 @@ package com.mvvm.common.base.scanners;
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.base.InvalidObject;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Created by AboelelaA on 6/7/2017.
@@ -50,20 +48,13 @@ public class FieldTypeScannerTest
     private void apply_Presenter(FieldTypeScanner fieldTypeScanner, Field[] fields) throws Exception
     {
         // Extract Presenter
-        Observable.just(fieldTypeScanner.apply(fields, Presenter.class))
-                .filter(new Predicate<Object>()
+        Observable.fromIterable(fieldTypeScanner.apply(fields, Presenter.class))
+                .map(new Function<Field, Object>()
                 {
                     @Override
-                    public boolean test(@NonNull Object o) throws Exception {
-                        return !(o instanceof InvalidObject);
-                    }
-                })
-                .map(new Function<Object, Object>()
-                {
-                    @Override
-                    public Object apply(@NonNull Object presenterField) throws Exception {
+                    public Object apply(@NonNull Field presenterField) throws Exception {
 
-                        Constructor<?> presenterConstructor = ((Field)presenterField).getType().getDeclaredConstructor();
+                        Constructor<?> presenterConstructor = presenterField.getType().getDeclaredConstructor();
                         presenterConstructor.setAccessible(true);
                         return presenterConstructor.newInstance();
                     }
@@ -80,20 +71,13 @@ public class FieldTypeScannerTest
     private void apply_Models(FieldTypeScanner fieldTypeScanner, Field[] fields) throws Exception
     {
         // Extract Models
-        Observable.just(fieldTypeScanner.apply(fields, DataModel.class))
-                .filter(new Predicate<Object>()
+        Observable.fromIterable(fieldTypeScanner.apply(fields, DataModel.class))
+                .map(new Function<Field, Object>()
                 {
                     @Override
-                    public boolean test(@NonNull Object o) throws Exception {
-                        return !(o instanceof InvalidObject);
-                    }
-                })
-                .map(new Function<Object, Object>()
-                {
-                    @Override
-                    public Object apply(@NonNull Object modelField) throws Exception {
+                    public Object apply(@NonNull Field modelField) throws Exception {
 
-                        Constructor<?> presenterConstructor = ((Field)modelField).getType().getDeclaredConstructors()[0];
+                        Constructor<?> presenterConstructor = modelField.getType().getDeclaredConstructors()[0];
                         presenterConstructor.setAccessible(true);
                         return presenterConstructor.newInstance(10L);
                     }
@@ -110,20 +94,13 @@ public class FieldTypeScannerTest
     private void apply_ViewModel(FieldTypeScanner fieldTypeScanner, Field[] fields) throws Exception
     {
         // Extract ViewModels
-        Observable.just(fieldTypeScanner.apply(fields, ViewModel.class))
-                .filter(new Predicate<Object>()
+        Observable.fromIterable(fieldTypeScanner.apply(fields, ViewModel.class))
+                .map(new Function<Field, Object>()
                 {
                     @Override
-                    public boolean test(@NonNull Object o) throws Exception {
-                        return !(o instanceof InvalidObject);
-                    }
-                })
-                .map(new Function<Object, Object>()
-                {
-                    @Override
-                    public Object apply(@NonNull Object viewModelField) throws Exception {
+                    public Object apply(@NonNull Field viewModelField) throws Exception {
 
-                        Constructor<?> presenterConstructor = ((Field)viewModelField).getType().getDeclaredConstructors()[0];
+                        Constructor<?> presenterConstructor = viewModelField.getType().getDeclaredConstructors()[0];
                         presenterConstructor.setAccessible(true);
                         return presenterConstructor.newInstance(20);
                     }

@@ -9,6 +9,9 @@ import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.mvvmdemo.MainPresenter;
 import com.mvvm.mvvmdemo.data.MainViewModel;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -31,7 +34,7 @@ public class MainActivityPresenterChild extends MainPresenter
     }
 
     @Override
-    public Observable getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType)
+    public Observable<List<Field>> getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType)
     {
         return super.getViewModelFieldsOfAnnotationType(viewModel, annotationType);
     }

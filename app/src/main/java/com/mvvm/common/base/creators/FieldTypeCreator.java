@@ -1,6 +1,5 @@
 package com.mvvm.common.base.creators;
 
-import com.mvvm.common.base.InvalidObject;
 import com.mvvm.common.utils.MyLog;
 
 import java.lang.reflect.Constructor;
@@ -16,7 +15,8 @@ public class FieldTypeCreator
     /**
      * Create field object with its annotated value corresponding constructor
      * @param field : Given the field from class declarion, create instance for it
-     * @return: corresponding object to field annotation
+     * @return: corresponding object to field annotation or null of there is
+     * no field declared with this annotation
      */
     public Object createFieldObject(Field field) {
         try {
@@ -28,6 +28,6 @@ public class FieldTypeCreator
             MyLog.logError(getClass().getSimpleName(), "Error creating field object", e);
         }
 
-        return new InvalidObject();
+        return null;
     }
 }
