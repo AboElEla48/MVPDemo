@@ -8,6 +8,6 @@ import com.mvvm.common.annotation.InflateLayout;
  * Sample class to test layout inflate using annotation
  */
 @InflateLayout(R.layout.activity_main)
-class SampleViewLayoutScannerTest
+class SampleViewLayoutScanner
 {
 }

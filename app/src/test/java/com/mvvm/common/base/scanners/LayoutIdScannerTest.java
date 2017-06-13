@@ -14,10 +14,10 @@ public class LayoutIdScannerTest
     public void apply_NoReturnNull() throws Exception {
         // Declare
         LayoutIdScanner layoutIdScanner = new LayoutIdScanner();
-        SampleViewLayoutScannerTest sampleViewLayoutScannerTest = new SampleViewLayoutScannerTest();
+        SampleViewLayoutScanner sampleViewLayoutScanner = new SampleViewLayoutScanner();
 
         //operation
-        Integer resId = layoutIdScanner.apply(sampleViewLayoutScannerTest);
+        Integer resId = layoutIdScanner.apply(sampleViewLayoutScanner);
 
         // Assert
         Assert.assertTrue(resId != null);
