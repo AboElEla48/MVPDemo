@@ -16,4 +16,12 @@ public class MainActivityChild extends MainActivity
 {
     @Presenter
     MainActivityPresenterChild mainActivityPresenterChild;
+
+    public MainActivityPresenterChild getPresenter() {
+        return mainActivityPresenterChild;
+    }
+
+    public void setPresenter(MainActivityPresenterChild mainActivityPresenterChild) {
+        this.mainActivityPresenterChild = mainActivityPresenterChild;
+    }
 }

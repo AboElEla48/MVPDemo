@@ -13,7 +13,7 @@ import com.mvvm.mvvmdemo.data.MainViewModel;
  * Sample for Main activity presenter
  */
 
-class MainActivityPresenterChild extends MainPresenter
+public class MainActivityPresenterChild extends MainPresenter
 {
     @ViewModel
     private MainActivityViewModelChild mainViewModel;

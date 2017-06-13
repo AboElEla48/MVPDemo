@@ -13,14 +13,13 @@ public class SampleLifeCycleDelegateChild extends LifeCycleDelegate
         super(hostViews);
     }
 
-    BasePresenter getPresenter()
-    {
+    public BasePresenter getPresenter() {
         return this.presenter;
     }
 
-//    private SampleBasePresenter sampleBasePresenter = new SampleBasePresenter();
-//
-//    SampleBasePresenter getSampleBasePresenter() {
-//        return sampleBasePresenter;
-//    }
+    //    private SampleBasePresenter sampleBasePresenter = new SampleBasePresenter();
+    //
+    //    SampleBasePresenter getSampleBasePresenter() {
+    //        return sampleBasePresenter;
+    //    }
 }
