@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
@@ -170,10 +173,33 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 viewModelFieldObject.set(viewModel, PublishSubject.create());
                 allViewModelsFields.add((PublishSubject<Object>) viewModelFieldObject.get(viewModel));
 
-                getViewFieldOfResIdAndClass(TextView.class, fieldResId)
+                getViewFieldOfResIdAndClass(getViewClass(viewModelFieldAnnotation), fieldResId)
                         .subscribe(setViewValueFromViewModel(viewModel, viewModelFieldObject, viewModelFieldAnnotation));
             }
         };
+    }
+
+    private Class getViewClass(Class<?> viewModelFieldAnnotation) {
+        if (viewModelFieldAnnotation.getName().equals(ViewModelCheckBoxField.class.getName())) {
+            return CheckBox.class;
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
+            return EditText.class;
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
+            return RadioButton.class;
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
+            return TextView.class;
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelTextViewTextColorField.class.getName())) {
+            return View.class;
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
+            return View.class;
+        }
+
+        return null;
     }
 
     /**
