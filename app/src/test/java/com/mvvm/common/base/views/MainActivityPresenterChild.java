@@ -4,6 +4,7 @@
 
 package com.mvvm.common.base.views;
 
+import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.mvvmdemo.MainPresenter;
@@ -24,8 +25,15 @@ public class MainActivityPresenterChild extends MainPresenter
     @ViewModel
     private MainActivityViewModelChild mainViewModel;
 
+    @DataModel
+    private MainActivityModelChild mainActivityModelChild;
+
     MainViewModel getMainViewModel() {
         return mainViewModel;
+    }
+
+    MainActivityModelChild getMainModel() {
+        return mainActivityModelChild;
     }
 
     @Override

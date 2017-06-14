@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.presenters.BasePresenter;
+import com.mvvm.mvvmdemo.data.MainModel;
 import com.mvvm.mvvmdemo.data.MainViewModel;
 
 import io.reactivex.annotations.NonNull;
@@ -19,7 +21,10 @@ import io.reactivex.functions.Consumer;
 public class MainPresenter extends BasePresenter<MainActivity>
 {
     @ViewModel
-    MainViewModel mainViewModel;
+    private MainViewModel mainViewModel;
+
+    @DataModel
+    MainModel mainModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
