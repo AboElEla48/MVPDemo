@@ -9,7 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelRadioButtonField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
@@ -128,48 +133,98 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     public void associateViewModelWithViews(final BaseViewModel viewModel) {
         // Loop all fields defined in ViewModel
 
-        // search for text view fields
-        getViewModelFieldsOfAnnotationType(viewModel, ViewModelTextField.class)
-                .subscribe(new Consumer<List<Field>>()
-                {
-                    @Override
-                    public void accept(@io.reactivex.annotations.NonNull final List<Field> viewModelFieldObjects) throws Exception {
-                        Observable.fromIterable(viewModelFieldObjects)
-                                .subscribe(new Consumer<Field>()
-                                {
-                                    @Override
-                                    public void accept(@io.reactivex.annotations.NonNull final Field viewModelFieldObject) throws Exception {
-                                        // get annotation of field
-                                        final int fieldResId = ((ViewModelTextField) viewModelFieldObject.getDeclaredAnnotations()[0]).value();
-                                        viewModelFieldObject.setAccessible(true);
+        // Search for text views
+        getViewModelTextViews(viewModel, ViewModelTextField.class);
 
-                                        // Create publish subject object to view model field
-                                        viewModelFieldObject.set(viewModel, PublishSubject.create());
-                                        allViewModelsFields.add((PublishSubject<Object>)viewModelFieldObject.get(viewModel));
-
-                                        getViewFieldOfResIdAndClass(TextView.class, fieldResId)
-                                                .subscribe(new Consumer<View>()
-                                                {
-                                                    @Override
-                                                    public void accept(@io.reactivex.annotations.NonNull View view) throws Exception {
-                                                        final TextView textView = (TextView) view;
-                                                        ((PublishSubject<String>)  viewModelFieldObject.get(viewModel))
-                                                                .subscribe(new Consumer<String>()
-                                                                {
-                                                                    @Override
-                                                                    public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
-
-                                                                        // set text to text view
-                                                                        textView.setText(s);
-                                                                    }
-                                                                });
-                                                    }
-                                                });
-                                    }
-                                });
-                    }
-                });
     }
+
+
+    private void getViewModelTextViews(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
+        // search for text view fields
+        getViewModelFieldsOfAnnotationType(viewModel, viewModelFieldAnnotation)
+                .subscribe(collectViewModelFields(viewModel, viewModelFieldAnnotation));
+    }
+
+
+    private Consumer<List<Field>> collectViewModelFields(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
+        return new Consumer<List<Field>>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull final List<Field> viewModelFieldObjects) throws Exception {
+                Observable.fromIterable(viewModelFieldObjects)
+                        .subscribe(createFieldPublishSubjects(viewModel, viewModelFieldAnnotation));
+            }
+        };
+    }
+
+    private Consumer<Field> createFieldPublishSubjects(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
+        return new Consumer<Field>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull final Field viewModelFieldObject) throws Exception {
+                // get annotation of field
+                final int fieldResId = getViewModelResIdOfAnnotationField(viewModelFieldObject, viewModelFieldAnnotation);
+                viewModelFieldObject.setAccessible(true);
+
+                // Create publish subject object to view model field
+                viewModelFieldObject.set(viewModel, PublishSubject.create());
+                allViewModelsFields.add((PublishSubject<Object>) viewModelFieldObject.get(viewModel));
+
+                getViewFieldOfResIdAndClass(TextView.class, fieldResId)
+                        .subscribe(setViewValueFromViewModel(viewModel, viewModelFieldObject, viewModelFieldAnnotation));
+            }
+        };
+    }
+
+    /**
+     * Set value from ViewModel to corresponding view in View
+     * @param viewModel
+     * @param viewModelFieldObject
+     * @return
+     */
+    private Consumer<View> setViewValueFromViewModel(final BaseViewModel viewModel, final Field viewModelFieldObject, final Class<?> viewModelFieldAnnotation) {
+        return new Consumer<View>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull View view) throws Exception {
+                if (viewModelFieldAnnotation.getName().equals(ViewModelCheckBoxField.class.getName())) {
+                    // TODO: set check box value
+                }
+                else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
+                    // TODO: set Hint text in edit text
+                }
+                else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
+                    // TODO: set Radio Button
+                }
+                else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
+                    // set text
+                    ((PublishSubject<String>)  viewModelFieldObject.get(viewModel))
+                            .subscribe(setTextViewText((TextView) view));
+                }
+                else if (viewModelFieldAnnotation.getName().equals(ViewModelTextViewTextColorField.class.getName())) {
+                    // TODO: set text color
+                }
+                else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
+                    // TODO: set view visibility
+                }
+
+
+            }
+        };
+    }
+
+    private Consumer<String> setTextViewText(final TextView textView) {
+        return new Consumer<String>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
+
+                // set text to text view
+                textView.setText(s);
+            }
+        };
+    }
+
 
     protected Observable<List<Field>> getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType) {
         return Observable.just(new FieldTypeScanner().apply(viewModel.getClass().getDeclaredFields(), annotationType))
@@ -207,6 +262,30 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                         return ((View) field.get(getBaseView()));
                     }
                 });
+    }
+
+    private int getViewModelResIdOfAnnotationField(Field field, Class<?> viewModelFieldAnnotation) {
+        if (viewModelFieldAnnotation.getName().equals(ViewModelCheckBoxField.class.getName())) {
+            return ((ViewModelCheckBoxField) field.getDeclaredAnnotations()[0]).value();
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
+            return ((ViewModelHintEditTextField) field.getDeclaredAnnotations()[0]).value();
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
+            return ((ViewModelRadioButtonField) field.getDeclaredAnnotations()[0]).value();
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
+            return ((ViewModelTextField) field.getDeclaredAnnotations()[0]).value();
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelTextViewTextColorField.class.getName())) {
+            return ((ViewModelTextViewTextColorField) field.getDeclaredAnnotations()[0]).value();
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
+            return ((ViewModelViewVisibilityField) field.getDeclaredAnnotations()[0]).value();
+        }
+
+        return 0;
+
     }
 
 
