@@ -134,12 +134,12 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         // Loop all fields defined in ViewModel
 
         // Search for text views
-        getViewModelTextViews(viewModel, ViewModelTextField.class);
+        associateViewModelTextViewsValues(viewModel, ViewModelTextField.class);
 
     }
 
 
-    private void getViewModelTextViews(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
+    private void associateViewModelTextViewsValues(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
         // search for text view fields
         getViewModelFieldsOfAnnotationType(viewModel, viewModelFieldAnnotation)
                 .subscribe(collectViewModelFields(viewModel, viewModelFieldAnnotation));
