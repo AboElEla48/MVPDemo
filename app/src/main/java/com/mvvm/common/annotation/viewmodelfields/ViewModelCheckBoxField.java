@@ -10,13 +10,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by AboelelaA on 6/11/2017.
- * Annotation for fields declared as Text view in ViewModel
+ * Created by AboelelaA on 6/14/2017.
+ * Annotation for fields declared as Check boxes in ViewModel
  */
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ViewModelTextField
+public @interface ViewModelCheckBoxField
 {
     int value();
 }
