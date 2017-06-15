@@ -137,12 +137,15 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         // Loop all fields defined in ViewModel
 
         // Search for text views
-        associateViewModelTextViewsValues(viewModel, ViewModelTextField.class);
+        associateViewModelFieldValuesOfType(viewModel, ViewModelTextField.class);
+
+        // Search for visibility values in ViewModel
+        associateViewModelFieldValuesOfType(viewModel, ViewModelViewVisibilityField.class);
 
     }
 
 
-    private void associateViewModelTextViewsValues(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
+    private void associateViewModelFieldValuesOfType(final BaseViewModel viewModel, final Class<?> viewModelFieldAnnotation) {
         // search for text view fields
         getViewModelFieldsOfAnnotationType(viewModel, viewModelFieldAnnotation)
                 .subscribe(collectViewModelFields(viewModel, viewModelFieldAnnotation));
@@ -231,9 +234,10 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                     // TODO: set text color
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
-                    // TODO: set view visibility
+                    // set view visibility
+                    ((PublishSubject<Integer>)  viewModelFieldObject.get(viewModel))
+                            .subscribe(setViewVisibility(view));
                 }
-
 
             }
         };
@@ -247,6 +251,18 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
                 // set text to text view
                 textView.setText(s);
+            }
+        };
+    }
+
+    private Consumer<Integer> setViewVisibility(final View view) {
+        return new Consumer<Integer>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull Integer visibility) throws Exception {
+
+                // set view visibility
+                view.setVisibility(visibility.intValue());
             }
         };
     }

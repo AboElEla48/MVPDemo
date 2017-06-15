@@ -2,6 +2,7 @@ package com.mvvm.mvvmdemo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.common.annotation.DataModel;
@@ -35,11 +36,31 @@ public class MainPresenter extends BasePresenter<MainActivity>
                 {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        mainViewModel.setActivityTextViewValue("Text set from View Model of Activity");
+                        mainViewModel.setActivityTextViewValue("Text set from View Model");
+                    }
+                });
+
+        RxView.clicks(getBaseView().mainViewVisibility)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        switch (getBaseView().mainImageView.getVisibility()) {
+                            case View.VISIBLE: {
+                                mainViewModel.setActivityImageViewVisibility(View.GONE);
+                                break;
+                            }
+
+                            case View.GONE: {
+                                mainViewModel.setActivityImageViewVisibility(View.VISIBLE);
+                                break;
+                            }
+                        }
+
                     }
                 });
 
         // set login fragment
-//        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
+        //        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
     }
 }
