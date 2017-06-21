@@ -1,5 +1,6 @@
 package com.mvvm.mvvmdemo;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class MainActivity extends BaseActivity
     TextView mainTitleTextView;
 
     @BindView(R.id.main_activity_image_view)
-    ImageView mainImageView;
+    View mainImageView;
 
     @BindView(R.id.main_activity_set_text_btn)
     Button mainTextSetter;
