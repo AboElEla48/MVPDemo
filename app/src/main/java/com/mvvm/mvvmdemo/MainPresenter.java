@@ -27,6 +27,8 @@ public class MainPresenter extends BasePresenter<MainActivity>
     @DataModel
     MainModel mainModel;
 
+    int dummyVal = 0;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class MainPresenter extends BasePresenter<MainActivity>
                 {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        mainViewModel.setActivityTextViewValue("Text set from View Model");
+                        mainViewModel.setActivityTextViewValue("Text set from View Model - " + ++dummyVal);
                     }
                 });
 
@@ -47,12 +49,12 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     public void accept(@NonNull Object o) throws Exception {
                         switch (getBaseView().mainImageView.getVisibility()) {
                             case View.VISIBLE: {
-                                mainViewModel.setActivityImageViewVisibility(View.GONE);
+//                                mainViewModel.setActivityImageViewVisibility(View.GONE);
                                 break;
                             }
 
                             case View.GONE: {
-                                mainViewModel.setActivityImageViewVisibility(View.VISIBLE);
+//                                mainViewModel.setActivityImageViewVisibility(View.VISIBLE);
                                 break;
                             }
                         }

@@ -125,6 +125,9 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
 
                 viewModel.initView(viewModelPresenter.getBaseView());
 
+                // add view model to presenter list
+                viewModelPresenter.addViewModel(viewModel);
+
                 viewModelField.setAccessible(true);
                 viewModelField.set(viewModelPresenter, viewModel);
 

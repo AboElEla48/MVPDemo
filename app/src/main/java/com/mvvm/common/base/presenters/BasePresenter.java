@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelRadioButtonField;
@@ -37,7 +38,7 @@ import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by AboelelaA on 6/6/2017.
- *
+ * <p>
  * This is the parent class for all presenters
  */
 
@@ -45,15 +46,28 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 {
     private V baseView;
 
-    private ArrayList<PublishSubject<Object>> allViewModelsFields;
+    private ArrayList<BaseViewModel> allViewModels;
+
+//    private ArrayList<PublishSubject<Object>> allViewModelsPublishSubjectsFields;
 
     /**
      * init base baseView object
+     *
      * @param baseView: this is te base baseView that will be accessed from presenter
      */
     public void initBaseView(@NonNull V baseView) {
         this.baseView = baseView;
-        allViewModelsFields = new ArrayList<>();
+        allViewModels = new ArrayList<>();
+//        allViewModelsPublishSubjectsFields = new ArrayList<>();
+    }
+
+    /**
+     * Add new view model to list of View Models holded in presenter
+     *
+     * @param baseViewModel
+     */
+    public void addViewModel(BaseViewModel baseViewModel) {
+        allViewModels.add(baseViewModel);
     }
 
     @Override
@@ -98,15 +112,16 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     @Override
     public void onDestroy() {
 
-        // Destroy all publish subjects
-        Observable.fromIterable(allViewModelsFields)
-                .subscribe(new Consumer<PublishSubject<Object>>()
+        // Destroy all publish subjects of view model
+        Observable.fromIterable(allViewModels)
+                .subscribe(new Consumer<BaseViewModel>()
                 {
                     @Override
-                    public void accept(@io.reactivex.annotations.NonNull PublishSubject<Object> publishSubject) throws Exception {
-                        publishSubject.onComplete();
+                    public void accept(@io.reactivex.annotations.NonNull BaseViewModel baseViewModel) throws Exception {
+                        baseViewModel.releaseViewModelValues();
                     }
                 });
+
     }
 
     @Override
@@ -131,6 +146,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     /**
      * given the view model object, associate all values in ViewModel with views in BaseView
+     *
      * @param viewModel :  the created view model object for this presenter
      */
     public void associateViewModelWithViews(final BaseViewModel viewModel) {
@@ -172,12 +188,14 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 final int fieldResId = getViewModelResIdOfAnnotationField(viewModelFieldObject, viewModelFieldAnnotation);
                 viewModelFieldObject.setAccessible(true);
 
-                // Create publish subject object to view model field
-                viewModelFieldObject.set(viewModel, PublishSubject.create());
-                allViewModelsFields.add((PublishSubject<Object>) viewModelFieldObject.get(viewModel));
+                // Create Publish Subject corresponding to this field
+                PublishSubject fieldPublishSubject = PublishSubject.create();
+                viewModel.addField(viewModelFieldObject, fieldPublishSubject);
+//                viewModelFieldObject.set(viewModel, PublishSubject.create());
+//                allViewModelsPublishSubjectsFields.add((PublishSubject<Object>) viewModelFieldObject.get(viewModel));
 
                 getViewFieldOfResIdAndClass(getViewClass(viewModelFieldAnnotation), fieldResId)
-                        .subscribe(setViewValueFromViewModel(viewModel, viewModelFieldObject, viewModelFieldAnnotation));
+                        .subscribe(setViewValueFromViewModel(viewModel, fieldPublishSubject, viewModelFieldAnnotation));
             }
         };
     }
@@ -207,11 +225,13 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     /**
      * Set value from ViewModel to corresponding view in View
+     *
      * @param viewModel
-     * @param viewModelFieldObject
+     * @param viewModelPublishSubject
      * @return
      */
-    private Consumer<View> setViewValueFromViewModel(final BaseViewModel viewModel, final Field viewModelFieldObject, final Class<?> viewModelFieldAnnotation) {
+    private Consumer<View> setViewValueFromViewModel(final BaseViewModel viewModel, final PublishSubject viewModelPublishSubject,
+                                                     final Class<?> viewModelFieldAnnotation) {
         return new Consumer<View>()
         {
             @Override
@@ -227,16 +247,16 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
                     // set text
-                    ((PublishSubject<String>)  viewModelFieldObject.get(viewModel))
+                    ((PublishSubject<String>)viewModelPublishSubject)
                             .subscribe(setTextViewText((TextView) view));
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelTextViewTextColorField.class.getName())) {
                     // TODO: set text color
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
-                    // set view visibility
-                    ((PublishSubject<Integer>)  viewModelFieldObject.get(viewModel))
-                            .subscribe(setViewVisibility(view));
+//                    // set view visibility
+//                    ((PublishSubject<Integer>) viewModelFieldObject.get(viewModel))
+//                            .subscribe(setViewVisibility(view));
                 }
 
             }
