@@ -22,8 +22,12 @@ public class MainViewModel extends BaseViewModel
     @ViewModelTextField(R.id.main_activity_title_text_view)
     String activityTextViewValue;
 
+    @ViewModelViewVisibilityField(R.id.main_activity_image_view)
+    Integer activityImageViewVisibility;
+
     /**
      * Setter for text view value
+     *
      * @param activityTextViewValue
      */
     public void setActivityTextViewValue(String activityTextViewValue) {
@@ -36,14 +40,25 @@ public class MainViewModel extends BaseViewModel
         }
     }
 
-    //    @ViewModelViewVisibilityField(R.id.main_activity_image_view)
-//    PublishSubject<Integer> activityImageViewVisibility;
+    public String getActivityTextViewValue() {
+        return activityTextViewValue;
+    }
 
-//    public void setActivityTextViewValue(String value) {
-//        this.activityTextViewValue.onNext(value);
-//    }
+    /**
+     * Set the visibility of image view
+     * @param activityImageViewVisibility
+     */
+    public void setActivityImageViewVisibility(Integer activityImageViewVisibility) {
+        try {
+            setViewModelFieldValue(this, "activityImageViewVisibility", activityImageViewVisibility);
+        } catch (NoSuchFieldException ex) {
+            MyLog.logError(MainViewModel.class.getName(), "No Such Field Exception" + activityTextViewValue, ex);
+        } catch (IllegalAccessException ex) {
+            MyLog.logError(MainViewModel.class.getName(), "Illegal Access Exception" + activityTextViewValue, ex);
+        }
+    }
 
-//    public void setActivityImageViewVisibility(Integer visibility) {
-//        this.activityImageViewVisibility.onNext(visibility);
-//    }
+    public Integer getActivityImageViewVisibility() {
+        return activityImageViewVisibility;
+    }
 }

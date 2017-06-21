@@ -3,11 +3,13 @@ package com.mvvm.mvvmdemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.presenters.BasePresenter;
+import com.mvvm.common.utils.ToastUtil;
 import com.mvvm.mvvmdemo.data.MainModel;
 import com.mvvm.mvvmdemo.data.MainViewModel;
 
@@ -39,6 +41,7 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         mainViewModel.setActivityTextViewValue("Text set from View Model - " + ++dummyVal);
+                        ToastUtil.showToast(getBaseView(), mainViewModel.getActivityTextViewValue());
                     }
                 });
 
@@ -49,15 +52,17 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     public void accept(@NonNull Object o) throws Exception {
                         switch (getBaseView().mainImageView.getVisibility()) {
                             case View.VISIBLE: {
-//                                mainViewModel.setActivityImageViewVisibility(View.GONE);
+                                mainViewModel.setActivityImageViewVisibility(View.GONE);
                                 break;
                             }
 
                             case View.GONE: {
-//                                mainViewModel.setActivityImageViewVisibility(View.VISIBLE);
+                                mainViewModel.setActivityImageViewVisibility(View.VISIBLE);
                                 break;
                             }
                         }
+
+                        ToastUtil.showToast(getBaseView(), "Image visibility: " + mainViewModel.getActivityImageViewVisibility());
 
                     }
                 });

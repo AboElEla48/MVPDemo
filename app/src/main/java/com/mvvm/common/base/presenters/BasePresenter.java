@@ -191,11 +191,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 // Create Publish Subject corresponding to this field
                 PublishSubject fieldPublishSubject = PublishSubject.create();
                 viewModel.addField(viewModelFieldObject, fieldPublishSubject);
-//                viewModelFieldObject.set(viewModel, PublishSubject.create());
-//                allViewModelsPublishSubjectsFields.add((PublishSubject<Object>) viewModelFieldObject.get(viewModel));
 
                 getViewFieldOfResIdAndClass(getViewClass(viewModelFieldAnnotation), fieldResId)
-                        .subscribe(setViewValueFromViewModel(viewModel, fieldPublishSubject, viewModelFieldAnnotation));
+                        .subscribe(setViewValueFromViewModel(fieldPublishSubject, viewModelFieldAnnotation));
             }
         };
     }
@@ -226,11 +224,10 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     /**
      * Set value from ViewModel to corresponding view in View
      *
-     * @param viewModel
      * @param viewModelPublishSubject
      * @return
      */
-    private Consumer<View> setViewValueFromViewModel(final BaseViewModel viewModel, final PublishSubject viewModelPublishSubject,
+    private Consumer<View> setViewValueFromViewModel(final PublishSubject viewModelPublishSubject,
                                                      final Class<?> viewModelFieldAnnotation) {
         return new Consumer<View>()
         {
@@ -254,9 +251,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                     // TODO: set text color
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
-//                    // set view visibility
-//                    ((PublishSubject<Integer>) viewModelFieldObject.get(viewModel))
-//                            .subscribe(setViewVisibility(view));
+                    // set view visibility
+                    ((PublishSubject<Integer>) viewModelPublishSubject)
+                            .subscribe(setViewVisibility(view));
                 }
 
             }
