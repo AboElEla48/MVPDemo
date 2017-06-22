@@ -23,6 +23,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/test"/>
 
+        <ImageView
+            android:id="@+id/main_activity_drawable_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/test"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -41,6 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hide/Show Image"/>
+
+        <Button
+            android:id="@+id/main_activity_change_image_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Image"/>
 
 
     </LinearLayout>

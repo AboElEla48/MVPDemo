@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.mvvm.R;
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.presenters.BasePresenter;
@@ -91,6 +92,21 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     public void accept(@NonNull Object o) throws Exception {
                         mainViewModel.setActivityEditorHintText("Hint text from Model " + ++dummyVal);
                         ToastUtil.showToast(getBaseView(), "Hint Text: " + mainViewModel.getActivityEditorHintText());
+                    }
+                });
+
+        RxView.clicks(getBaseView().mainChangeImageBtn)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        if (dummyVal % 2 == 0) {
+                            mainViewModel.setImageViewDrawable(R.drawable.notification_icon);
+                        }
+                        else {
+                            mainViewModel.setImageViewDrawable(R.drawable.test);
+                        }
+                        ++dummyVal;
                     }
                 });
 

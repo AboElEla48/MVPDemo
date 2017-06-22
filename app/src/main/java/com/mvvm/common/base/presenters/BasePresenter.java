@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelRadioButtonField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
@@ -163,6 +166,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         // Search for fields reflecting Hint text in Edit View
         associateViewModelFieldValuesOfType(viewModel, ViewModelHintEditTextField.class);
 
+        // Search for fields reflecting drawable in Image View
+        associateViewModelFieldValuesOfType(viewModel, ViewModelImageViewField.class);
+
     }
 
 
@@ -249,6 +255,11 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
                     // TODO: set Radio Button
                 }
+                else if (viewModelFieldAnnotation.getName().equals(ViewModelImageViewField.class.getName())) {
+                    // set Image view drawable
+                    ((PublishSubject<Integer>) viewModelPublishSubject)
+                            .subscribe(setImageViewDrawable((ImageView) view));
+                }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
                     // set text
                     ((PublishSubject<String>)viewModelPublishSubject)
@@ -323,6 +334,18 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                 // set hint text
                 editText.setHint(val);
 
+            }
+        };
+    }
+
+    private Consumer<Integer> setImageViewDrawable(final ImageView imageView) {
+        return new Consumer<Integer>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull Integer drawableID) throws Exception {
+
+                // set Image View drawable
+                imageView.setImageDrawable(imageView.getContext().getDrawable(drawableID));
             }
         };
     }

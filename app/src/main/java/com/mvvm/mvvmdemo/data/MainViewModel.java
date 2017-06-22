@@ -6,6 +6,7 @@ package com.mvvm.mvvmdemo.data;
 
 import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
@@ -30,6 +31,9 @@ public class MainViewModel extends BaseViewModel
 
     @ViewModelHintEditTextField(R.id.main_activity_edit_text)
     String activityEditorHintText;
+
+    @ViewModelImageViewField(R.id.main_activity_image_view)
+    Integer imageViewDrawable;
 
     private void setFieldValue(String fieldName, Object val) {
         try {
@@ -85,5 +89,13 @@ public class MainViewModel extends BaseViewModel
 
     public void setActivityEditorHintText(String activityEditorHintText) {
         setFieldValue("activityEditorHintText", activityEditorHintText);
+    }
+
+    public void setImageViewDrawable(Integer imageViewDrawable) {
+        setFieldValue("imageViewDrawable", imageViewDrawable);
+    }
+
+    public Integer getImageViewDrawable() {
+        return imageViewDrawable;
     }
 }
