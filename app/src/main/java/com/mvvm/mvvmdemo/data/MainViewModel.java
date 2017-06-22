@@ -5,13 +5,12 @@
 package com.mvvm.mvvmdemo.data;
 
 import com.mvvm.R;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.utils.MyLog;
-
-import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by AboelelaA on 6/12/2017.
@@ -28,6 +27,9 @@ public class MainViewModel extends BaseViewModel
 
     @ViewModelViewVisibilityField(R.id.main_activity_image_view)
     Integer activityImageViewVisibility;
+
+    @ViewModelHintEditTextField(R.id.main_activity_edit_text)
+    String activityEditorHintText;
 
     private void setFieldValue(String fieldName, Object val) {
         try {
@@ -71,5 +73,17 @@ public class MainViewModel extends BaseViewModel
     public void setActivityTextViewTextColor(Integer activityTextViewTextColor) {
         setFieldValue("activityTextViewTextColor", activityTextViewTextColor);
 
+    }
+
+    public Integer getActivityTextViewTextColor() {
+        return activityTextViewTextColor;
+    }
+
+    public String getActivityEditorHintText() {
+        return activityEditorHintText;
+    }
+
+    public void setActivityEditorHintText(String activityEditorHintText) {
+        setFieldValue("activityEditorHintText", activityEditorHintText);
     }
 }

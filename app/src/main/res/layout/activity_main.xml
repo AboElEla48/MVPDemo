@@ -64,6 +64,24 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/main_activity_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/main_activity_set_edit_text_hint_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hint Text"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/main_frameLayout"
         android:layout_width="match_parent"

@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelRadioButtonField;
@@ -161,6 +160,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         // Search for text view text color values in ViewModel
         associateViewModelFieldValuesOfType(viewModel, ViewModelTextViewTextColorField.class);
 
+        // Search for fields reflecting Hint text in Edit View
+        associateViewModelFieldValuesOfType(viewModel, ViewModelHintEditTextField.class);
+
     }
 
 
@@ -240,7 +242,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                     // TODO: set check box value
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
-                    // TODO: set Hint text in edit text
+                    // set Hint text in edit text
+                    ((PublishSubject<String>)viewModelPublishSubject)
+                            .subscribe(setEditViewHintText((EditText) view));
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
                     // TODO: set Radio Button
@@ -284,7 +288,16 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
             public void accept(@io.reactivex.annotations.NonNull Integer visibility) throws Exception {
 
                 // set view visibility
-                view.setVisibility(visibility.intValue());
+                switch (visibility.intValue()) {
+                    case View.VISIBLE:
+                    case View.GONE:
+                    case View.INVISIBLE:
+                    {
+                        view.setVisibility(visibility.intValue());
+                        break;
+                    }
+                }
+
             }
         };
     }
@@ -297,6 +310,19 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
                 // set text view text color
                 textView.setTextColor(color);
+            }
+        };
+    }
+
+    private Consumer<String> setEditViewHintText(final EditText editText) {
+        return new Consumer<String>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull String val) throws Exception {
+
+                // set hint text
+                editText.setHint(val);
+
             }
         };
     }

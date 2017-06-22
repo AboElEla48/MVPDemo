@@ -2,7 +2,7 @@ package com.mvvm.mvvmdemo;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mvvm.R;
@@ -35,5 +35,11 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.main_activity_set_view_green_btn)
     Button mainViewGreenButton;
+
+    @BindView(R.id.main_activity_edit_text)
+    EditText mainEditText;
+
+    @BindView(R.id.main_activity_set_edit_text_hint_btn)
+    Button mainEditSetter;
 
 }

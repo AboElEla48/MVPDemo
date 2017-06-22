@@ -84,6 +84,16 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     }
                 });
 
+        RxView.clicks(getBaseView().mainEditSetter)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mainViewModel.setActivityEditorHintText("Hint text from Model " + ++dummyVal);
+                        ToastUtil.showToast(getBaseView(), "Hint Text: " + mainViewModel.getActivityEditorHintText());
+                    }
+                });
+
         // set login fragment
         //        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
     }
