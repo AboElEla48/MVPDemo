@@ -30,4 +30,10 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.main_activity_set_view_visible_btn)
     Button mainViewVisibility;
 
+    @BindView(R.id.main_activity_set_view_red_btn)
+    Button mainViewRedButton;
+
+    @BindView(R.id.main_activity_set_view_green_btn)
+    Button mainViewGreenButton;
+
 }

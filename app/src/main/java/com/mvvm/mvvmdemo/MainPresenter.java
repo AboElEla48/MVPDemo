@@ -3,7 +3,6 @@ package com.mvvm.mvvmdemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.common.annotation.DataModel;
@@ -42,6 +41,24 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     public void accept(@NonNull Object o) throws Exception {
                         mainViewModel.setActivityTextViewValue("Text set from View Model - " + ++dummyVal);
                         ToastUtil.showToast(getBaseView(), mainViewModel.getActivityTextViewValue());
+                    }
+                });
+
+        RxView.clicks(getBaseView().mainViewRedButton)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mainViewModel.setActivityTextViewTextColor(0xFFFF0000);
+                    }
+                });
+
+        RxView.clicks(getBaseView().mainViewGreenButton)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mainViewModel.setActivityTextViewTextColor(0xFF00FF00);
                     }
                 });
 

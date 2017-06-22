@@ -158,6 +158,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         // Search for visibility values in ViewModel
         associateViewModelFieldValuesOfType(viewModel, ViewModelViewVisibilityField.class);
 
+        // Search for text view text color values in ViewModel
+        associateViewModelFieldValuesOfType(viewModel, ViewModelTextViewTextColorField.class);
+
     }
 
 
@@ -212,7 +215,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
             return TextView.class;
         }
         else if (viewModelFieldAnnotation.getName().equals(ViewModelTextViewTextColorField.class.getName())) {
-            return View.class;
+            return TextView.class;
         }
         else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
             return View.class;
@@ -248,7 +251,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                             .subscribe(setTextViewText((TextView) view));
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelTextViewTextColorField.class.getName())) {
-                    // TODO: set text color
+                    //  set text color
+                    ((PublishSubject<Integer>) viewModelPublishSubject)
+                            .subscribe(setTextViewTextColor((TextView) view));
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
                     // set view visibility
@@ -280,6 +285,18 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
                 // set view visibility
                 view.setVisibility(visibility.intValue());
+            }
+        };
+    }
+
+    private Consumer<Integer> setTextViewTextColor(final TextView textView) {
+        return new Consumer<Integer>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull Integer color) throws Exception {
+
+                // set text view text color
+                textView.setTextColor(color);
             }
         };
     }
