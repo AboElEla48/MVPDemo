@@ -2,6 +2,7 @@ package com.mvvm.mvvmdemo;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,5 +49,11 @@ public class MainActivity extends BaseActivity
 
     @BindView(R.id.main_activity_change_image_btn)
     Button mainChangeImageBtn;
+
+    @BindView(R.id.main_activity_checkBox)
+    CheckBox mainCheckBoxView;
+
+    @BindView(R.id.main_activity_set_checkBox_btn)
+    Button mainCheckValueSetterBtn;
 
 }

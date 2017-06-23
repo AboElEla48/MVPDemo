@@ -5,6 +5,7 @@
 package com.mvvm.mvvmdemo.data;
 
 import com.mvvm.R;
+import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
@@ -34,6 +35,9 @@ public class MainViewModel extends BaseViewModel
 
     @ViewModelImageViewField(R.id.main_activity_drawable_view)
     Integer imageViewDrawable;
+
+    @ViewModelCheckBoxField(R.id.main_activity_checkBox)
+    Boolean checkBoxValue = new Boolean(false);
 
     private void setFieldValue(String fieldName, Object val) {
         try {
@@ -97,5 +101,13 @@ public class MainViewModel extends BaseViewModel
 
     public Integer getImageViewDrawable() {
         return imageViewDrawable;
+    }
+
+    public void setCheckBoxValue(Boolean checkBoxValue) {
+        setFieldValue("checkBoxValue", checkBoxValue);
+    }
+
+    public Boolean getCheckBoxValue() {
+        return checkBoxValue;
     }
 }

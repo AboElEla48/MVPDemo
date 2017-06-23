@@ -13,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelRadioButtonField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
@@ -169,6 +167,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         // Search for fields reflecting drawable in Image View
         associateViewModelFieldValuesOfType(viewModel, ViewModelImageViewField.class);
 
+        // Search for fields reflecting check box value
+        associateViewModelFieldValuesOfType(viewModel, ViewModelCheckBoxField.class);
+
     }
 
 
@@ -216,9 +217,6 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
             return EditText.class;
         }
-        else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
-            return RadioButton.class;
-        }
         else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
             return TextView.class;
         }
@@ -248,15 +246,14 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
             @Override
             public void accept(@io.reactivex.annotations.NonNull View view) throws Exception {
                 if (viewModelFieldAnnotation.getName().equals(ViewModelCheckBoxField.class.getName())) {
-                    // TODO: set check box value
+                    // set check box value
+                    ((PublishSubject<Boolean>)viewModelPublishSubject)
+                            .subscribe(setCheckBoxValue((CheckBox) view));
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
                     // set Hint text in edit text
                     ((PublishSubject<String>)viewModelPublishSubject)
                             .subscribe(setEditViewHintText((EditText) view));
-                }
-                else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
-                    // TODO: set Radio Button
                 }
                 else if (viewModelFieldAnnotation.getName().equals(ViewModelImageViewField.class.getName())) {
                     // set Image view drawable
@@ -353,6 +350,18 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         };
     }
 
+    private Consumer<Boolean> setCheckBoxValue(final CheckBox checkBox) {
+        return new Consumer<Boolean>()
+        {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull Boolean val) throws Exception {
+
+                // set check box value
+                checkBox.setChecked(val);
+            }
+        };
+    }
+
 
     protected Observable<List<Field>> getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType) {
         return Observable.just(new FieldTypeScanner().apply(viewModel.getClass().getDeclaredFields(), annotationType))
@@ -398,9 +407,6 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         }
         else if (viewModelFieldAnnotation.getName().equals(ViewModelHintEditTextField.class.getName())) {
             return ((ViewModelHintEditTextField) field.getDeclaredAnnotations()[0]).value();
-        }
-        else if (viewModelFieldAnnotation.getName().equals(ViewModelRadioButtonField.class.getName())) {
-            return ((ViewModelRadioButtonField) field.getDeclaredAnnotations()[0]).value();
         }
         else if (viewModelFieldAnnotation.getName().equals(ViewModelTextField.class.getName())) {
             return ((ViewModelTextField) field.getDeclaredAnnotations()[0]).value();

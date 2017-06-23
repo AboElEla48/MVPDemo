@@ -95,6 +95,25 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/main_activity_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check Box "/>
+
+        <Button
+            android:id="@+id/main_activity_set_checkBox_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set CheckBox"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/main_frameLayout"
         android:layout_width="match_parent"

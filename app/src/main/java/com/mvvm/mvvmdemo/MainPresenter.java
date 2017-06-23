@@ -110,6 +110,15 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     }
                 });
 
+        RxView.clicks(getBaseView().mainCheckValueSetterBtn)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mainViewModel.setCheckBoxValue(!mainViewModel.getCheckBoxValue());
+                    }
+                });
+
         // set login fragment
         //        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
     }
