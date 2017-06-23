@@ -228,6 +228,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
             return View.class;
         }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelImageViewField.class.getName())) {
+            return ImageView.class;
+        }
 
         return null;
     }
@@ -407,6 +410,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         }
         else if (viewModelFieldAnnotation.getName().equals(ViewModelViewVisibilityField.class.getName())) {
             return ((ViewModelViewVisibilityField) field.getDeclaredAnnotations()[0]).value();
+        }
+        else if (viewModelFieldAnnotation.getName().equals(ViewModelImageViewField.class.getName())) {
+            return ((ViewModelImageViewField) field.getDeclaredAnnotations()[0]).value();
         }
 
         return 0;

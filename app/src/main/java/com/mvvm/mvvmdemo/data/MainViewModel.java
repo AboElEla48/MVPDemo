@@ -32,7 +32,7 @@ public class MainViewModel extends BaseViewModel
     @ViewModelHintEditTextField(R.id.main_activity_edit_text)
     String activityEditorHintText;
 
-    @ViewModelImageViewField(R.id.main_activity_image_view)
+    @ViewModelImageViewField(R.id.main_activity_drawable_view)
     Integer imageViewDrawable;
 
     private void setFieldValue(String fieldName, Object val) {
