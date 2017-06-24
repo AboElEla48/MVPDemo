@@ -1,7 +1,5 @@
 package com.mvvm.common.base.creators;
 
-import com.mvvm.common.utils.MyLog;
-
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
