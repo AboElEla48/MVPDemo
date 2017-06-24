@@ -1,4 +1,4 @@
-package com.mvvm.common.annotation;
+package com.mvvm.common.annotation.singleton;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,10 +8,11 @@ import java.lang.annotation.Target;
 /**
  * Created by aboelela on 24/06/17.
  *
- * This is the annotation for fields declared as singleton
+ * This annotation for declaring object as singleton per session in presenter
+ *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Singleton
+public @interface SingletonPerSession
 {
 }

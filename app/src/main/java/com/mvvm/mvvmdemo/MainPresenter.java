@@ -8,6 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.R;
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
+import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.utils.ToastUtil;
 import com.mvvm.mvvmdemo.data.MainModel;
@@ -26,6 +27,7 @@ public class MainPresenter extends BasePresenter<MainActivity>
     @ViewModel
     private MainViewModel mainViewModel;
 
+    @Singleton
     @DataModel
     MainModel mainModel;
 

@@ -19,6 +19,7 @@ import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
+import com.mvvm.common.base.creators.SingletonCreator;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
@@ -48,7 +49,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     private ArrayList<BaseViewModel> allViewModels;
 
-//    private ArrayList<PublishSubject<Object>> allViewModelsPublishSubjectsFields;
+    private ArrayList<Object> allSingletonPerSessionObjects;
 
     /**
      * init base baseView object
@@ -58,7 +59,11 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     public void initBaseView(@NonNull V baseView) {
         this.baseView = baseView;
         allViewModels = new ArrayList<>();
-//        allViewModelsPublishSubjectsFields = new ArrayList<>();
+        allSingletonPerSessionObjects = new ArrayList<>();
+    }
+
+    public void addSingletonSessionObject(Object object) {
+        allSingletonPerSessionObjects.add(object);
     }
 
     /**
@@ -122,6 +127,15 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                     }
                 });
 
+        Observable.fromIterable(allSingletonPerSessionObjects)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
+                        SingletonCreator.getCreator().removeInstance(o.getClass());
+                    }
+                });
+
     }
 
     @Override
@@ -143,6 +157,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     public V getBaseView() {
         return baseView;
     }
+
 
     /**
      * given the view model object, associate all values in ViewModel with views in BaseView

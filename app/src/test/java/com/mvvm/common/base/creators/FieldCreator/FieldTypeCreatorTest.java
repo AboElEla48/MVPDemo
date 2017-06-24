@@ -1,9 +1,7 @@
 package com.mvvm.common.base.creators.FieldCreator;
 
 import com.mvvm.common.annotation.DataModel;
-import com.mvvm.common.annotation.Singleton;
 import com.mvvm.common.base.creators.FieldTypeCreator;
-import com.mvvm.common.base.creators.SingletonCreatorTest.SingletonObject;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 
 import org.junit.Assert;
@@ -15,8 +13,6 @@ import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by aboelela on 24/06/17.

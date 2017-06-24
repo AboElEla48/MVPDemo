@@ -1,6 +1,7 @@
 package com.mvvm.common.base.creators;
 
-import com.mvvm.common.annotation.Singleton;
+import com.mvvm.common.annotation.singleton.Singleton;
+import com.mvvm.common.annotation.singleton.SingletonPerSession;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.utils.MyLog;
 
@@ -21,7 +22,8 @@ public class FieldTypeCreator
      * no field declared with this annotation
      */
     public Object createFieldObject(Field field) {
-        if(!new FieldTypeScanner().isFieldAnnotatedBy(field, Singleton.class)) {
+        if(!new FieldTypeScanner().isFieldAnnotatedBy(field, Singleton.class)
+                && new FieldTypeScanner().isFieldAnnotatedBy(field, SingletonPerSession.class)) {
             // If this object isn't singleton, create new instance of it
             return getNewInstance(field);
         }

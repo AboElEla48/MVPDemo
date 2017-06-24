@@ -46,6 +46,14 @@ public final class SingletonCreator
         return singletonObject;
     }
 
+    /**
+     * Remove singleton object from singleton cache
+     * @param cls
+     */
+    public void removeInstance(Class<?> cls) {
+        singletonObjectsList.remove(cls);
+    }
+
     private static SingletonCreator instance;
     private HashMap<Class, Object> singletonObjectsList = new HashMap<>();
 }

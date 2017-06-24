@@ -1,6 +1,6 @@
 package com.mvvm.common.base.creators.SingletonCreatorTest;
 
-import com.mvvm.common.annotation.Singleton;
+import com.mvvm.common.annotation.singleton.Singleton;
 
 /**
  * Created by aboelela on 24/06/17.
