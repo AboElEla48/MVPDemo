@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import com.mvvm.common.base.scanners.LayoutIdScanner;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
+import com.mvvm.common.messaging.CustomMessage;
+import com.mvvm.common.messaging.InboxHolder;
+import com.mvvm.common.messaging.MessagesServer;
 
 import butterknife.ButterKnife;
 
@@ -17,7 +20,7 @@ import butterknife.ButterKnife;
  * This is the parent activity
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseView, ActivityLifeCycle
+public class BaseActivity extends AppCompatActivity implements BaseView, ActivityLifeCycle, InboxHolder
 {
     private LifeCycleDelegate lifeCycleDelegate;
 
@@ -32,9 +35,16 @@ public class BaseActivity extends AppCompatActivity implements BaseView, Activit
         // Bind views
         ButterKnife.bind(this);
 
+        MessagesServer.getInstance().registerInboxHolder(this);
+
         // pass lifecycle to baseView life cycle delegate
         lifeCycleDelegate = new LifeCycleDelegate(this);
         lifeCycleDelegate.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onMessageReceived(CustomMessage msg) {
+        lifeCycleDelegate.onMessageReceived(msg);
     }
 
     @Override
@@ -82,6 +92,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView, Activit
 
     @Override
     public final void onDestroy() {
+        MessagesServer.getInstance().unRegisterInboxHolder(this);
         lifeCycleDelegate.onDestroy();
         super.onDestroy();
     }

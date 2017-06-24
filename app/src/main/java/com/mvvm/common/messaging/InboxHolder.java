@@ -8,5 +8,5 @@ package com.mvvm.common.messaging;
 
 public interface InboxHolder
 {
-    void onReceiveMessage(CustomMessage msg);
+    void onMessageReceived(CustomMessage msg);
 }

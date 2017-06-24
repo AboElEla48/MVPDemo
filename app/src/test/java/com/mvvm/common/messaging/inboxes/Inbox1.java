@@ -12,7 +12,7 @@ import com.mvvm.common.messaging.InboxHolder;
 public class Inbox1 implements InboxHolder
 {
     @Override
-    public void onReceiveMessage(CustomMessage msg) {
+    public void onMessageReceived(CustomMessage msg) {
         x += (int)msg.getData();
 
     }

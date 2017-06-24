@@ -56,4 +56,9 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.main_activity_set_checkBox_btn)
     Button mainCheckValueSetterBtn;
 
+    @BindView(R.id.main_activity_launcher_sender_btn)
+    Button mainActivityLaunchBtn;
+
+    @BindView(R.id.main_activity_msg_body_textView)
+    TextView mainActivityMsgBodyTextView;
 }

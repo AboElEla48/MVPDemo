@@ -1,7 +1,5 @@
 package com.mvvm.common.messaging;
 
-import android.os.Message;
-
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
@@ -58,7 +56,7 @@ public final class MessagesServer
                     public void accept(@NonNull InboxHolder inboxHolder) throws Exception {
                         if(inboxHolder.getClass().equals(inboxHolderClass)) {
                             // send message to this inbox
-                            inboxHolder.onReceiveMessage(msg);
+                            inboxHolder.onMessageReceived(msg);
                         }
                     }
                 });

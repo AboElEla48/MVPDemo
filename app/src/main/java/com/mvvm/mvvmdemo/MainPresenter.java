@@ -10,6 +10,7 @@ import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.base.presenters.BasePresenter;
+import com.mvvm.common.messaging.CustomMessage;
 import com.mvvm.common.utils.ToastUtil;
 import com.mvvm.mvvmdemo.data.MainModel;
 import com.mvvm.mvvmdemo.data.MainViewModel;
@@ -121,7 +122,23 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     }
                 });
 
+        RxView.clicks(getBaseView().mainActivityLaunchBtn)
+                .subscribe(new Consumer<Object>()
+                {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        NavigationManager.startMessageSenderActivity(getBaseView());
+                    }
+                });
+
         // set login fragment
         //        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
+    }
+
+    @Override
+    public void onMessageReceived(CustomMessage msg) {
+        super.onMessageReceived(msg);
+
+        getBaseView().mainActivityMsgBodyTextView.setText("Payload = " + msg.getPayLoad() + ", Data = " + msg.getData());
     }
 }

@@ -8,12 +8,28 @@ package com.mvvm.common.messaging;
 public class CustomMessage
 {
     private Object data;
+    private int payLoad;
+
+    public CustomMessage() {}
+
+    public CustomMessage(int payload, Object data) {
+        setData(data);
+        setPayLoad(payload);
+    }
 
     public Object getData() {
         return data;
     }
 
+    public void setPayLoad(int payLoad) {
+        this.payLoad = payLoad;
+    }
+
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public int getPayLoad() {
+        return payLoad;
     }
 }

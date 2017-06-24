@@ -41,19 +41,22 @@
             android:id="@+id/main_activity_set_text_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set text"/>
+            android:text="Set text"
+            android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/main_activity_set_view_visible_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hide/Show Image"/>
+            android:text="Hide/Show Image"
+            android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/main_activity_change_image_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Image"/>
+            android:text="Change Image"
+            android:textAllCaps="false"/>
 
 
     </LinearLayout>
@@ -67,13 +70,15 @@
             android:id="@+id/main_activity_set_view_red_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Red"/>
+            android:text="Red"
+            android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/main_activity_set_view_green_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Green"/>
+            android:text="Green"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 
@@ -91,7 +96,8 @@
             android:id="@+id/main_activity_set_edit_text_hint_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hint Text"/>
+            android:text="Hint Text"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 
@@ -104,14 +110,35 @@
             android:id="@+id/main_activity_checkBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Check Box "/>
+            android:text="Check Box "
+            android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/main_activity_set_checkBox_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set CheckBox"/>
+            android:text="Set CheckBox"
+            android:textAllCaps="false"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/main_activity_launcher_sender_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Launch"
+            android:textAllCaps="false"/>
+
+        <TextView
+            android:id="@+id/main_activity_msg_body_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <FrameLayout

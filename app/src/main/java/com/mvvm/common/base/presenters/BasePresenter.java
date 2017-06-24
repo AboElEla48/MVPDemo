@@ -20,11 +20,15 @@ import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
 import com.mvvm.common.base.creators.SingletonCreator;
+import com.mvvm.common.base.models.BaseModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.FragmentLifeCycle;
+import com.mvvm.common.messaging.CustomMessage;
+import com.mvvm.common.messaging.InboxHolder;
+import com.mvvm.common.messaging.MessagesServer;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -43,12 +47,11 @@ import io.reactivex.subjects.PublishSubject;
  * This is the parent class for all presenters
  */
 
-public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, FragmentLifeCycle
+public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
 {
     private V baseView;
 
     private ArrayList<BaseViewModel> allViewModels;
-
     private ArrayList<Object> allSingletonPerSessionObjects;
 
     /**
@@ -66,6 +69,12 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
         allSingletonPerSessionObjects.add(object);
     }
 
+
+    @Override
+    public void onMessageReceived(CustomMessage msg) {
+
+    }
+
     /**
      * Add new view model to list of View Models holded in presenter
      *
@@ -77,6 +86,7 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        MessagesServer.getInstance().registerInboxHolder(this);
     }
 
     @Override
@@ -135,6 +145,8 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
                         SingletonCreator.getCreator().removeInstance(o.getClass());
                     }
                 });
+
+        MessagesServer.getInstance().unRegisterInboxHolder(this);
 
     }
 

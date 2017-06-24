@@ -26,6 +26,8 @@ import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.FragmentLifeCycle;
 import com.mvvm.common.interfaces.ViewLifeCycle;
+import com.mvvm.common.messaging.CustomMessage;
+import com.mvvm.common.messaging.InboxHolder;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -39,7 +41,7 @@ import io.reactivex.functions.Function;
  * This is the object that will held in activities and fragments to pass baseView life cycle events to it
  */
 
-class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
+class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
 {
     private WeakReference<ViewLifeCycle> hostObjectReference;
     protected BasePresenter presenter;
@@ -66,6 +68,13 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
 
         // Create Singleton fields in presenter
         createFieldsAnnotatedAsSingleton();
+    }
+
+    @Override
+    public void onMessageReceived(CustomMessage msg) {
+        if(presenter != null) {
+            presenter.onMessageReceived(msg);
+        }
     }
 
     /**
@@ -161,7 +170,6 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle
             @Override
             public BaseModel apply(@io.reactivex.annotations.NonNull Field modelField) throws Exception {
                 BaseModel dataModel = (BaseModel) new FieldTypeCreator().createFieldObject(modelField);
-
 
                 modelField.setAccessible(true);
                 modelField.set(modelPresenter, dataModel);
