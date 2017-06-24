@@ -2,7 +2,7 @@
  * Copyright (c) This code is written by Ahmed AboElEla (eng.a.aboelela@gmail.com). You can use it but please refer to Owner
  */
 
-package com.mvvm.mvvmdemo.data;
+package com.mvvm.mvvmdemo.mainActivity.data;
 
 import com.mvvm.common.base.models.BaseModel;
 

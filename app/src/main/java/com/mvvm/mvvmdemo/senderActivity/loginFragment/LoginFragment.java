@@ -1,4 +1,4 @@
-package com.mvvm.mvvmdemo.login;
+package com.mvvm.mvvmdemo.senderActivity.loginFragment;
 
 
 import android.os.Bundle;

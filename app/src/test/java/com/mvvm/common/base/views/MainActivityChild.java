@@ -5,7 +5,7 @@
 package com.mvvm.common.base.views;
 
 import com.mvvm.common.annotation.Presenter;
-import com.mvvm.mvvmdemo.MainActivity;
+import com.mvvm.mvvmdemo.mainActivity.MainActivity;
 
 /**
  * Created by AboelelaA on 6/13/2017.

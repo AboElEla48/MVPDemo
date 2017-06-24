@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.mvvm.R;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.messaging.CustomMessage;
 import com.mvvm.common.messaging.MessagesServer;
-import com.mvvm.mvvmdemo.MainActivity;
+import com.mvvm.mvvmdemo.mainActivity.MainActivity;
+import com.mvvm.mvvmdemo.senderActivity.loginFragment.LoginFragment;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -32,6 +34,9 @@ public class MessageSenderPresenter extends BasePresenter<MessageSenderActivity>
                         getBaseView().finish();
                     }
                 });
+
+        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.activity_frameLayout, LoginFragment.newInstance())
+                .commit();
 
     }
 }

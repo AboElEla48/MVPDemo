@@ -6,7 +6,7 @@ package com.mvvm.common.base.views;
 
 import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
-import com.mvvm.mvvmdemo.data.MainViewModel;
+import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
 import io.reactivex.subjects.PublishSubject;
 

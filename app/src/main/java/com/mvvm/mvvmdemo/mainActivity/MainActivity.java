@@ -1,4 +1,4 @@
-package com.mvvm.mvvmdemo;
+package com.mvvm.mvvmdemo.mainActivity;
 
 import android.view.View;
 import android.widget.Button;

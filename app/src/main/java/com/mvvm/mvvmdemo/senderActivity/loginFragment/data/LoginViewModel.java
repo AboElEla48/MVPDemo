@@ -1,4 +1,4 @@
-package com.mvvm.mvvmdemo.login.data;
+package com.mvvm.mvvmdemo.senderActivity.loginFragment.data;
 
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 

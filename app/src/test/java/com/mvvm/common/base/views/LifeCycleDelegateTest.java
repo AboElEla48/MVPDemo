@@ -4,8 +4,8 @@ import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
-import com.mvvm.mvvmdemo.MainActivity;
-import com.mvvm.mvvmdemo.MainPresenter;
+import com.mvvm.mvvmdemo.mainActivity.MainActivity;
+import com.mvvm.mvvmdemo.mainActivity.MainPresenter;
 
 import org.junit.Assert;
 import org.junit.Test;

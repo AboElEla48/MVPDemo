@@ -7,8 +7,8 @@ package com.mvvm.common.base.views;
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
-import com.mvvm.mvvmdemo.MainPresenter;
-import com.mvvm.mvvmdemo.data.MainViewModel;
+import com.mvvm.mvvmdemo.mainActivity.MainPresenter;
+import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
 import java.lang.reflect.Field;
 import java.util.List;

@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
               android:orientation="vertical"
-             tools:context="com.mvvm.mvvmdemo.login.LoginFragment">
+             tools:context="com.mvvm.mvvmdemo.senderActivity.loginFragment.LoginFragment">
 
     <TextView
         android:text="@string/txt_username"

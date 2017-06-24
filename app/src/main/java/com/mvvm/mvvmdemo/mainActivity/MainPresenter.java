@@ -1,4 +1,4 @@
-package com.mvvm.mvvmdemo;
+package com.mvvm.mvvmdemo.mainActivity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +12,9 @@ import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.messaging.CustomMessage;
 import com.mvvm.common.utils.ToastUtil;
-import com.mvvm.mvvmdemo.data.MainModel;
-import com.mvvm.mvvmdemo.data.MainViewModel;
+import com.mvvm.mvvmdemo.NavigationManager;
+import com.mvvm.mvvmdemo.mainActivity.data.MainModel;
+import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -130,9 +131,6 @@ public class MainPresenter extends BasePresenter<MainActivity>
                         NavigationManager.startMessageSenderActivity(getBaseView());
                     }
                 });
-
-        // set login fragment
-        //        getBaseView().getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, LoginFragment.newInstance()).commit();
     }
 
     @Override

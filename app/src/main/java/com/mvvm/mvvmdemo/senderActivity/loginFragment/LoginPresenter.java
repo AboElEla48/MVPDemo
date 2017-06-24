@@ -1,4 +1,4 @@
-package com.mvvm.mvvmdemo.login;
+package com.mvvm.mvvmdemo.senderActivity.loginFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.presenters.BasePresenter;
-import com.mvvm.mvvmdemo.login.data.LoginViewModel;
+import com.mvvm.mvvmdemo.senderActivity.loginFragment.data.LoginViewModel;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
