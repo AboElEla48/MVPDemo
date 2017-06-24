@@ -35,17 +35,6 @@
         android:hint="@string/txt_hint_password"
         android:textColorHint="@color/hint_txt_color"/>
 
-    <TextView
-        android:id="@+id/login_fragment_error_message_text_view"
-        android:text="@string/txt_default_error_msg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:textColor="@color/error_msg_txt_color"
-        android:visibility="gone"
-        android:textSize="@dimen/label_error_txt_size"/>
-
     <Button
         android:id="@+id/login_fragment_login_btn"
         android:layout_width="150dp"

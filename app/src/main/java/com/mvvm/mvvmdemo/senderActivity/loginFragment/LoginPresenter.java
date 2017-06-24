@@ -20,7 +20,7 @@ import io.reactivex.functions.Consumer;
 class LoginPresenter extends BasePresenter<LoginFragment>
 {
     @ViewModel
-    LoginViewModel loginViewModel;
+    private LoginViewModel loginViewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -35,5 +35,7 @@ class LoginPresenter extends BasePresenter<LoginFragment>
                         Toast.makeText(getBaseView().getContext(), "Invalid username or password", Toast.LENGTH_LONG).show();
                     }
                 });
+
+        loginViewModel.setUsernameHint("Hint text in fragment set from View Model");
     }
 }

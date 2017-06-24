@@ -38,19 +38,18 @@ public class BaseFragment extends Fragment implements BaseView, FragmentLifeCycl
 
         // Get declared resource Id of this activity
         int resourceId = new LayoutIdScanner().apply(this);
-        View fragmentView = inflater.inflate(resourceId, container, false);
-
-        // pass lifecycle to baseView life cycle delegate
-        lifeCycleDelegate = new LifeCycleDelegate(this);
-        lifeCycleDelegate.onCreate(savedInstanceState);
-
-        return fragmentView;
+        return inflater.inflate(resourceId, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ButterKnife.bind(this, getActivity());
+
+        // pass lifecycle to baseView life cycle delegate
+        lifeCycleDelegate = new LifeCycleDelegate(this);
+        lifeCycleDelegate.onCreate(savedInstanceState);
+
         lifeCycleDelegate.onActivityCreated(savedInstanceState);
     }
 
