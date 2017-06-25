@@ -1,10 +1,10 @@
 package com.mvvm.common.base.scanners;
 
 import com.mvvm.common.annotation.InflateLayout;
-import com.mvvm.common.utils.MyLog;
 
 import java.lang.annotation.Annotation;
 
+import com.mvvm.utils.LogUtil;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
@@ -30,7 +30,7 @@ public class LayoutIdScanner implements Function<Object, Integer>
             }
         }
 
-        MyLog.logError("LayoutIdScanner", "LayoutIdScanner Exception",
+        LogUtil.writeErrorLog("LayoutIdScanner", "LayoutIdScanner Exception",
                 new UnsupportedOperationException(LayoutIdScanner.class.getSimpleName() + " Not declared"));
         return null;
     }

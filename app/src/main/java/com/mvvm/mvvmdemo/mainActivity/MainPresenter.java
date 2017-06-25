@@ -11,11 +11,11 @@ import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.messaging.CustomMessage;
-import com.mvvm.common.utils.ToastUtil;
 import com.mvvm.mvvmdemo.NavigationManager;
 import com.mvvm.mvvmdemo.mainActivity.data.MainModel;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
+import com.mvvm.utils.DialogMsgUtil;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -45,7 +45,7 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         mainViewModel.setActivityTextViewValue("Text set from View Model - " + ++dummyVal);
-                        ToastUtil.showToast(getBaseView(), mainViewModel.getActivityTextViewValue());
+                        DialogMsgUtil.showInfoMessage(getBaseView(), mainViewModel.getActivityTextViewValue());
                     }
                 });
 
@@ -84,7 +84,7 @@ public class MainPresenter extends BasePresenter<MainActivity>
                             }
                         }
 
-                        ToastUtil.showToast(getBaseView(), "Image visibility: " + mainViewModel.getActivityImageViewVisibility());
+                        DialogMsgUtil.showInfoMessage(getBaseView(), "Image visibility: " + mainViewModel.getActivityImageViewVisibility());
 
                     }
                 });
@@ -95,7 +95,7 @@ public class MainPresenter extends BasePresenter<MainActivity>
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         mainViewModel.setActivityEditorHintText("Hint text from Model " + ++dummyVal);
-                        ToastUtil.showToast(getBaseView(), "Hint Text: " + mainViewModel.getActivityEditorHintText());
+                        DialogMsgUtil.showInfoMessage(getBaseView(), "Hint Text: " + mainViewModel.getActivityEditorHintText());
                     }
                 });
 

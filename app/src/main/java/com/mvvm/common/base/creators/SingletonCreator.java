@@ -36,10 +36,6 @@ public final class SingletonCreator
 
                 singletonObjectsList.put(cls, singletonObject);
 
-//            }
-//            catch (Exception e) {
-//                MyLog.logError(getClass().getSimpleName(), "Error creating Singleton object", e);
-//            }
         }
         return singletonObject;
     }

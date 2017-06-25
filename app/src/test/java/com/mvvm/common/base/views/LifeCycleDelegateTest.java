@@ -21,12 +21,6 @@ import io.reactivex.functions.Consumer;
  */
 public class LifeCycleDelegateTest
 {
-//    @Before
-//    public void mockAllNeededObjects() throws Exception {
-//        PowerMockito.spy(MyLog.class);
-//        PowerMockito.doNothing().when(MyLog.class, PowerMockito.method(MyLog.class, "logError", String.class, String.class, Throwable.class));
-//    }
-
     @Test
     public void toPresenter_ReturnsPresenterObject() throws Exception {
         MainActivity mainActivity = PowerMockito.mock(MainActivity.class);

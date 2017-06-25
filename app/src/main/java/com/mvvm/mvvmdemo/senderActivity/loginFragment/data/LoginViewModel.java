@@ -3,7 +3,8 @@ package com.mvvm.mvvmdemo.senderActivity.loginFragment.data;
 import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
-import com.mvvm.common.utils.MyLog;
+
+import com.mvvm.utils.LogUtil;
 
 /**
  * Created by AboelelaA on 6/7/2017.
@@ -24,9 +25,9 @@ public class LoginViewModel extends BaseViewModel
         try {
             setViewModelFieldValue(this, fieldName, val);
         } catch (NoSuchFieldException ex) {
-            MyLog.logError(LoginViewModel.class.getName(), "No Such Field Exception" + val, ex);
+            LogUtil.writeErrorLog(LoginViewModel.class.getName(), "No Such Field Exception" + val, ex);
         } catch (IllegalAccessException ex) {
-            MyLog.logError(LoginViewModel.class.getName(), "Illegal Access Exception" + val, ex);
+            LogUtil.writeErrorLog(LoginViewModel.class.getName(), "Illegal Access Exception" + val, ex);
         }
     }
 

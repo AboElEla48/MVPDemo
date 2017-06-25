@@ -12,7 +12,8 @@ import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
-import com.mvvm.common.utils.MyLog;
+
+import com.mvvm.utils.LogUtil;
 
 /**
  * Created by AboelelaA on 6/12/2017.
@@ -43,9 +44,9 @@ public class MainViewModel extends BaseViewModel
         try {
             setViewModelFieldValue(this, fieldName, val);
         } catch (NoSuchFieldException ex) {
-            MyLog.logError(MainViewModel.class.getName(), "No Such Field Exception" + val, ex);
+            LogUtil.writeErrorLog(MainViewModel.class.getName(), "No Such Field Exception" + val, ex);
         } catch (IllegalAccessException ex) {
-            MyLog.logError(MainViewModel.class.getName(), "Illegal Access Exception" + val, ex);
+            LogUtil.writeErrorLog(MainViewModel.class.getName(), "Illegal Access Exception" + val, ex);
         }
     }
 

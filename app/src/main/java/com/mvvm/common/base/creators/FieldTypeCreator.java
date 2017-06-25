@@ -3,10 +3,11 @@ package com.mvvm.common.base.creators;
 import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.annotation.singleton.SingletonPerSession;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
-import com.mvvm.common.utils.MyLog;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+
+import com.mvvm.utils.LogUtil;
 
 /**
  * Created by AboelelaA on 6/8/2017.
@@ -33,7 +34,7 @@ public class FieldTypeCreator
                 return SingletonCreator.getCreator().getInstance(field.getType());
             }
             catch (Exception ex){
-                MyLog.logError(getClass().getSimpleName(), "Error creating Singleton object", ex);
+                LogUtil.writeErrorLog(getClass().getSimpleName(), "Error creating Singleton object", ex);
                 return null;
             }
 
@@ -47,7 +48,7 @@ public class FieldTypeCreator
             return fieldObjectConstructor.newInstance();
         }
         catch (Exception e) {
-            MyLog.logError(getClass().getSimpleName(), "Error creating field object", e);
+            LogUtil.writeErrorLog(getClass().getSimpleName(), "Error creating field object", e);
         }
 
         return null;
