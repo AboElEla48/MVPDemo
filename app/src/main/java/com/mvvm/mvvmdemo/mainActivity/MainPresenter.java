@@ -24,7 +24,7 @@ import io.reactivex.functions.Consumer;
  * Presenter for Main activity
  */
 
-public class MainPresenter extends BasePresenter<MainActivity>
+public class MainPresenter extends BasePresenter<MainActivity, MainPresenter>
 {
     @ViewModel
     private MainViewModel mainViewModel;

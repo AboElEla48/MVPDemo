@@ -32,7 +32,7 @@ public class BasePresenterTest
     public void init() throws Exception {
         mainActivity = PowerMockito.mock(MainActivityChild.class);
         mainPresenter = new MainActivityPresenterChild();
-        mainPresenter.initBaseView(mainActivity);
+        mainPresenter.initBaseView(mainActivity, mainPresenter);
         //        mainPresenter = PowerMockito.mock(MainActivityPresenterChild.class);
         //        PowerMockito.when(mainPresenter.getClass().getDeclaredMethod("getViewModelFieldsOfAnnotationType", BaseViewModel.class,
         //                Class.class)).thenCallRealMethod();

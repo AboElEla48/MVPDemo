@@ -19,7 +19,7 @@ import io.reactivex.functions.Consumer;
  * Presenter for message sender activity
  */
 
-public class MessageSenderPresenter extends BasePresenter<MessageSenderActivity>
+public class MessageSenderPresenter extends BasePresenter<MessageSenderActivity, MessageSenderPresenter>
 {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

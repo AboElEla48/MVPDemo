@@ -13,12 +13,15 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.mvvm.common.annotation.singleton.Singleton;
+import com.mvvm.common.annotation.singleton.SingletonPerSession;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
+import com.mvvm.common.base.creators.FieldTypeCreator;
 import com.mvvm.common.base.creators.SingletonCreator;
 import com.mvvm.common.base.models.BaseModel;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
@@ -47,9 +50,10 @@ import io.reactivex.subjects.PublishSubject;
  * This is the parent class for all presenters
  */
 
-public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
+public class BasePresenter<V extends BaseView, P extends BasePresenter> implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
 {
     private V baseView;
+    private P basePresenter;
 
     private ArrayList<BaseViewModel> allViewModels;
     private ArrayList<Object> allSingletonPerSessionObjects;
@@ -59,15 +63,49 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
      *
      * @param baseView: this is te base baseView that will be accessed from presenter
      */
-    public void initBaseView(@NonNull V baseView) {
+    public void initBaseView(@NonNull V baseView, @NonNull P basePresenter) {
         this.baseView = baseView;
+        this.basePresenter = basePresenter;
+
         allViewModels = new ArrayList<>();
         allSingletonPerSessionObjects = new ArrayList<>();
     }
 
-    public void addSingletonSessionObject(Object object) {
-        allSingletonPerSessionObjects.add(object);
+    /**
+     * Create all fields annotated as singleton in presenter
+     */
+    private void createFieldsAnnotatedAsSingleton() {
+        Observable.fromIterable(new FieldTypeScanner().apply(basePresenter.getClass().getDeclaredFields(), Singleton.class))
+                .map(toSingleton(basePresenter, false))
+                .subscribe();
+
+        Observable.fromIterable(new FieldTypeScanner().apply(basePresenter.getClass().getDeclaredFields(), SingletonPerSession.class))
+                .map(toSingleton(basePresenter, true))
+                .subscribe();
     }
+
+    private Function<Field, Object> toSingleton(final BasePresenter singletonPresenter, final boolean isPerSession) {
+        return new Function<Field, Object>()
+        {
+            @Override
+            public Object apply(@io.reactivex.annotations.NonNull Field singletonField) throws Exception {
+                Object singletonObject = new FieldTypeCreator().createFieldObject(singletonField);
+
+                singletonField.setAccessible(true);
+                singletonField.set(singletonPresenter, singletonObject);
+
+                if(isPerSession) {
+                    allSingletonPerSessionObjects.add(singletonObject);
+                }
+
+                return singletonObject;
+            }
+        };
+    }
+
+//    public void addSingletonSessionObject(Object object) {
+//        allSingletonPerSessionObjects.add(object);
+//    }
 
 
     @Override
@@ -87,6 +125,9 @@ public class BasePresenter<V extends BaseView> implements ActivityLifeCycle, Fra
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         MessagesServer.getInstance().registerInboxHolder(this);
+
+        // Create Singleton fields in presenter
+        createFieldsAnnotatedAsSingleton();
     }
 
     @Override

@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.annotation.singleton.Singleton;
-import com.mvvm.common.annotation.singleton.SingletonPerSession;
 import com.mvvm.common.base.creators.FieldTypeCreator;
 import com.mvvm.common.base.models.BaseModel;
 import com.mvvm.common.base.presenters.BasePresenter;
@@ -41,7 +39,7 @@ import io.reactivex.functions.Function;
  * This is the object that will held in activities and fragments to pass baseView life cycle events to it
  */
 
-class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
+public class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
 {
     private WeakReference<ViewLifeCycle> hostObjectReference;
     protected BasePresenter presenter;
@@ -65,9 +63,6 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, InboxHo
 
         // Create models from presenter by annotation
         createFieldsAnnotatedAsModels();
-
-        // Create Singleton fields in presenter
-        createFieldsAnnotatedAsSingleton();
     }
 
     @Override
@@ -108,7 +103,7 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, InboxHo
                 presenter = (BasePresenter) (new FieldTypeCreator().createFieldObject(presenterField));
 
                 // pass base baseView to presenter
-                presenter.initBaseView(hostView);
+                presenter.initBaseView(hostView, presenter);
 
                 // set presenter to baseView
                 presenterField.setAccessible(true);
@@ -179,37 +174,7 @@ class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, InboxHo
         };
     }
 
-    /**
-     * Create all fields annotated as singleton in presenter
-     */
-    private void createFieldsAnnotatedAsSingleton() {
-        Observable.fromIterable(new FieldTypeScanner().apply(presenter.getClass().getDeclaredFields(), Singleton.class))
-                .map(toSingleton(presenter, false))
-                .subscribe();
 
-        Observable.fromIterable(new FieldTypeScanner().apply(presenter.getClass().getDeclaredFields(), SingletonPerSession.class))
-                .map(toSingleton(presenter, true))
-                .subscribe();
-    }
-
-    Function<Field, Object> toSingleton(final BasePresenter singletonPresenter, final boolean isPerSession) {
-        return new Function<Field, Object>()
-        {
-            @Override
-            public Object apply(@io.reactivex.annotations.NonNull Field singletonField) throws Exception {
-                Object singletonObject = new FieldTypeCreator().createFieldObject(singletonField);
-
-                singletonField.setAccessible(true);
-                singletonField.set(singletonPresenter, singletonObject);
-
-                if(isPerSession) {
-                    singletonPresenter.addSingletonSessionObject(singletonObject);
-                }
-
-                return singletonObject;
-            }
-        };
-    }
 
     @Override
     public void onStart() {

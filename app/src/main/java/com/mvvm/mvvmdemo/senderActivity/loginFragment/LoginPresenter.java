@@ -17,7 +17,7 @@ import io.reactivex.functions.Consumer;
  * This is the  presenter for login fragment
  */
 
-class LoginPresenter extends BasePresenter<LoginFragment>
+class LoginPresenter extends BasePresenter<LoginFragment, LoginPresenter>
 {
     @ViewModel
     private LoginViewModel loginViewModel;
