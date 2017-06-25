@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mvvm.utils;
+package com.mvvm.common.utils;
 
 import java.io.File;
 import java.io.IOException;

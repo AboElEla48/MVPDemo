@@ -30,7 +30,7 @@ public class MessageSenderPresenter extends BasePresenter<MessageSenderActivity>
                 {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        MessagesServer.getInstance().sendMessage(MainActivity.class, new CustomMessage(10, "Message says Hello"));
+                        MessagesServer.getInstance().sendMessage(MainActivity.class, new CustomMessage(1, 10, "Message says Hello"));
                         getBaseView().finish();
                     }
                 });

@@ -4,7 +4,7 @@ import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 
-import com.mvvm.utils.LogUtil;
+import com.mvvm.common.utils.LogUtil;
 
 /**
  * Created by AboelelaA on 6/7/2017.

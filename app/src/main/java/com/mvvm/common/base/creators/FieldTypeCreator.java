@@ -7,7 +7,7 @@ import com.mvvm.common.base.scanners.FieldTypeScanner;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
-import com.mvvm.utils.LogUtil;
+import com.mvvm.common.utils.LogUtil;
 
 /**
  * Created by AboelelaA on 6/8/2017.

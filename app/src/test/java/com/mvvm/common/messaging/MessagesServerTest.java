@@ -1,8 +1,9 @@
 package com.mvvm.common.messaging;
 
 import com.mvvm.common.messaging.inboxes.Inbox1;
-import com.mvvm.common.messaging.inboxes.MessageSender;
+import com.mvvm.common.messaging.inboxes.PendingInboxSample;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +15,9 @@ import org.junit.Test;
 public class MessagesServerTest
 {
     private Inbox1 inbox1;
-    private MessageSender messageSender;
-
     @Before
     public void init() {
         inbox1 = new Inbox1();
-        messageSender = new MessageSender();
 
         MessagesServer.getInstance().registerInboxHolder(inbox1);
     }
@@ -32,6 +30,27 @@ public class MessagesServerTest
         MessagesServer.getInstance().sendMessage(Inbox1.class, message);
 
         Assert.assertTrue(inbox1.getVal() == 10);
+    }
+
+    @Test
+    public void sendMessageDelayed() throws Exception {
+        CustomMessage message = new CustomMessage(1, 0, "This is pending message");
+
+        MessagesServer.getInstance().sendMessage(PendingInboxSample.class, message);
+
+        PendingInboxSample pendingInboxSample = new PendingInboxSample();
+        MessagesServer.getInstance().registerInboxHolder(pendingInboxSample);
+
+        Assert.assertTrue(pendingInboxSample.getPendingMessage().getMessageId() == message.getMessageId());
+        Assert.assertTrue(pendingInboxSample.getPendingMessage().getData().equals(message.getData()));
+
+        MessagesServer.getInstance().unRegisterInboxHolder(pendingInboxSample);
+
+    }
+
+    @After
+    public void release() {
+        MessagesServer.getInstance().unRegisterInboxHolder(inbox1);
     }
 
 }

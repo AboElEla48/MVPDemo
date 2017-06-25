@@ -7,14 +7,24 @@ package com.mvvm.common.messaging;
 
 public class CustomMessage
 {
+    private int messageId;
     private Object data;
     private int payLoad;
 
     public CustomMessage() {}
 
-    public CustomMessage(int payload, Object data) {
+    public CustomMessage(int messageId, int payload, Object data) {
+        setMessageId(messageId);
         setData(data);
         setPayLoad(payload);
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
+
+    public int getMessageId() {
+        return messageId;
     }
 
     public Object getData() {

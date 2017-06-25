@@ -15,7 +15,7 @@ import com.mvvm.mvvmdemo.NavigationManager;
 import com.mvvm.mvvmdemo.mainActivity.data.MainModel;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
-import com.mvvm.utils.DialogMsgUtil;
+import com.mvvm.common.utils.DialogMsgUtil;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 

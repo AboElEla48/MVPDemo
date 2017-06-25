@@ -4,7 +4,7 @@ import com.mvvm.common.annotation.InflateLayout;
 
 import java.lang.annotation.Annotation;
 
-import com.mvvm.utils.LogUtil;
+import com.mvvm.common.utils.LogUtil;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
