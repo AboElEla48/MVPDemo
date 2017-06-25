@@ -12,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.Presenter;
 import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.creators.FieldTypeCreator;
-import com.mvvm.common.base.models.BaseModel;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
@@ -60,9 +58,6 @@ public class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, 
 
         // Get View models by annotation
         createFieldsAnnotatedAsViewModels();
-
-        // Create models from presenter by annotation
-        createFieldsAnnotatedAsModels();
     }
 
     @Override
@@ -148,32 +143,6 @@ public class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, 
             }
         };
     }
-
-    /**
-     * Create Models declared in presenter
-     */
-    private void createFieldsAnnotatedAsModels() {
-        Observable.fromIterable(new FieldTypeScanner().apply(presenter.getClass().getDeclaredFields(), DataModel.class))
-                .map(toDataModel(presenter))
-                .subscribe();
-    }
-
-
-    Function<Field, BaseModel> toDataModel(final BasePresenter modelPresenter) {
-        return new Function<Field, BaseModel>()
-        {
-            @Override
-            public BaseModel apply(@io.reactivex.annotations.NonNull Field modelField) throws Exception {
-                BaseModel dataModel = (BaseModel) new FieldTypeCreator().createFieldObject(modelField);
-
-                modelField.setAccessible(true);
-                modelField.set(modelPresenter, dataModel);
-
-                return dataModel;
-            }
-        };
-    }
-
 
 
     @Override

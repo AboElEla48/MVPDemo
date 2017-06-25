@@ -83,7 +83,7 @@ public class LifeCycleDelegateTest
 
                         // Create view models
                         Observable.fromIterable(new FieldTypeScanner().apply(MainActivityPresenterChild.class.getDeclaredFields(), DataModel.class))
-                                .map(lifeCycleDelegate.toDataModel(lifeCycleDelegate.getPresenter()))
+                                .map(lifeCycleDelegate.getPresenter().toDataModel(lifeCycleDelegate.getPresenter()))
                                 .subscribe(new Consumer<Object>()
                                 {
                                     @Override

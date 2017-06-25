@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.annotation.singleton.SingletonPerSession;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
@@ -72,6 +73,31 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
     }
 
     /**
+     * Create Models declared in presenter
+     */
+    private void createFieldsAnnotatedAsModels() {
+        Observable.fromIterable(new FieldTypeScanner().apply(basePresenter.getClass().getDeclaredFields(), DataModel.class))
+                .map(toDataModel(basePresenter))
+                .subscribe();
+    }
+
+
+    public Function<Field, BaseModel> toDataModel(final BasePresenter modelPresenter) {
+        return new Function<Field, BaseModel>()
+        {
+            @Override
+            public BaseModel apply(@io.reactivex.annotations.NonNull Field modelField) throws Exception {
+                BaseModel dataModel = (BaseModel) new FieldTypeCreator().createFieldObject(modelField);
+
+                modelField.setAccessible(true);
+                modelField.set(modelPresenter, dataModel);
+
+                return dataModel;
+            }
+        };
+    }
+
+    /**
      * Create all fields annotated as singleton in presenter
      */
     private void createFieldsAnnotatedAsSingleton() {
@@ -103,10 +129,6 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
         };
     }
 
-//    public void addSingletonSessionObject(Object object) {
-//        allSingletonPerSessionObjects.add(object);
-//    }
-
 
     @Override
     public void onMessageReceived(CustomMessage msg) {
@@ -125,6 +147,9 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         MessagesServer.getInstance().registerInboxHolder(this);
+
+        // Create models from presenter by annotation
+        createFieldsAnnotatedAsModels();
 
         // Create Singleton fields in presenter
         createFieldsAnnotatedAsSingleton();
