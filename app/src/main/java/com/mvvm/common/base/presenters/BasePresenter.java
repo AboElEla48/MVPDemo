@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.mvvm.common.annotation.DataModel;
+import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.annotation.singleton.Singleton;
 import com.mvvm.common.annotation.singleton.SingletonPerSession;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
@@ -129,6 +130,40 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
         };
     }
 
+    /**
+     * Create View Models
+     */
+    private void createFieldsAnnotatedAsViewModels() {
+        Observable.fromIterable(new FieldTypeScanner().apply(basePresenter.getClass().getDeclaredFields(), ViewModel.class))
+                .map(toViewModel(basePresenter))
+                .subscribe();
+
+    }
+
+    public Function<Field, BaseViewModel> toViewModel(final BasePresenter viewModelPresenter) {
+        return new Function<Field, BaseViewModel>()
+        {
+            @Override
+            public BaseViewModel apply(@io.reactivex.annotations.NonNull Field viewModelField) throws Exception {
+                BaseViewModel viewModel = (BaseViewModel) new FieldTypeCreator().createFieldObject(viewModelField);
+
+                viewModel.initView(viewModelPresenter.getBaseView());
+
+                // add view model to presenter list
+                allViewModels.add(viewModel);
+
+                viewModelField.setAccessible(true);
+                viewModelField.set(viewModelPresenter, viewModel);
+
+                // Associate all views in baseView model
+                viewModelPresenter.associateViewModelWithViews(viewModel);
+
+
+                return viewModel;
+            }
+        };
+    }
+
 
     @Override
     public void onMessageReceived(CustomMessage msg) {
@@ -140,9 +175,9 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
      *
      * @param baseViewModel
      */
-    public void addViewModel(BaseViewModel baseViewModel) {
-        allViewModels.add(baseViewModel);
-    }
+//    public void addViewModel(BaseViewModel baseViewModel) {
+//        allViewModels.add(baseViewModel);
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -153,6 +188,9 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
 
         // Create Singleton fields in presenter
         createFieldsAnnotatedAsSingleton();
+
+        // Get View models by annotation
+        createFieldsAnnotatedAsViewModels();
     }
 
     @Override

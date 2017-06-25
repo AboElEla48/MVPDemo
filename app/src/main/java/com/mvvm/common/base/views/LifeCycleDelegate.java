@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mvvm.common.annotation.Presenter;
-import com.mvvm.common.annotation.ViewModel;
 import com.mvvm.common.base.creators.FieldTypeCreator;
 import com.mvvm.common.base.presenters.BasePresenter;
 import com.mvvm.common.base.scanners.FieldTypeScanner;
-import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.common.interfaces.ActivityLifeCycle;
 import com.mvvm.common.interfaces.BaseView;
 import com.mvvm.common.interfaces.FragmentLifeCycle;
@@ -55,9 +53,6 @@ public class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, 
 
         // Get presenter object by annotation
         createFieldsAnnotatedAsPresenter(hostView, savedInstanceState);
-
-        // Get View models by annotation
-        createFieldsAnnotatedAsViewModels();
     }
 
     @Override
@@ -109,41 +104,6 @@ public class LifeCycleDelegate implements ActivityLifeCycle, FragmentLifeCycle, 
             }
         };
     }
-
-    /**
-     * Create View Models
-     */
-    private void createFieldsAnnotatedAsViewModels() {
-        Observable.fromIterable(new FieldTypeScanner().apply(presenter.getClass().getDeclaredFields(), ViewModel.class))
-                .map(toViewModel(presenter))
-                .subscribe();
-
-    }
-
-    Function<Field, BaseViewModel> toViewModel(final BasePresenter viewModelPresenter) {
-        return new Function<Field, BaseViewModel>()
-        {
-            @Override
-            public BaseViewModel apply(@io.reactivex.annotations.NonNull Field viewModelField) throws Exception {
-                BaseViewModel viewModel = (BaseViewModel) new FieldTypeCreator().createFieldObject(viewModelField);
-
-                viewModel.initView(viewModelPresenter.getBaseView());
-
-                // add view model to presenter list
-                viewModelPresenter.addViewModel(viewModel);
-
-                viewModelField.setAccessible(true);
-                viewModelField.set(viewModelPresenter, viewModel);
-
-                // Associate all views in baseView model
-                viewModelPresenter.associateViewModelWithViews(viewModel);
-
-
-                return viewModel;
-            }
-        };
-    }
-
 
     @Override
     public void onStart() {
