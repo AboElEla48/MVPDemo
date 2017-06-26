@@ -41,10 +41,10 @@ public class BasePresenterTest
     @Test
     public void getViewFieldOfResIdAndClass_returnsView() {
         final MainActivityViewModelChild mainActivityViewModelChild = new MainActivityViewModelChild();
-        mainActivityViewModelChild.initView(mainActivity);
+        mainActivityViewModelChild.initView(mainActivity, mainActivityViewModelChild);
 
         // search for text view fields
-        mainPresenter.getViewModelFieldsOfAnnotationType(mainActivityViewModelChild, ViewModelTextField.class)
+        mainActivityViewModelChild.getViewModelFieldsOfAnnotationType(ViewModelTextField.class)
                 .subscribe(new Consumer<List<Field>>()
                 {
                     @Override

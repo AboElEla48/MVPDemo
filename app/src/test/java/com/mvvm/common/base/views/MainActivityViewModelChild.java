@@ -8,6 +8,10 @@ import com.mvvm.R;
 import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
+import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -20,4 +24,15 @@ public class MainActivityViewModelChild extends MainViewModel
 {
     @ViewModelTextField(R.id.main_activity_title_text_view)
     PublishSubject<String> activityTextViewValue;
+
+    @Override
+    public Observable getViewFieldOfResIdAndClass(final Class clz, final int resId) {
+        return super.getViewFieldOfResIdAndClass(clz, resId);
+    }
+
+    @Override
+    public Observable<List<Field>> getViewModelFieldsOfAnnotationType(Class annotationType)
+    {
+        return super.getViewModelFieldsOfAnnotationType(annotationType);
+    }
 }

@@ -6,14 +6,8 @@ package com.mvvm.common.base.views;
 
 import com.mvvm.common.annotation.DataModel;
 import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.base.viewmodels.BaseViewModel;
 import com.mvvm.mvvmdemo.mainActivity.MainPresenter;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
-
-import java.lang.reflect.Field;
-import java.util.List;
-
-import io.reactivex.Observable;
 
 /**
  * Created by AboelelaA on 6/13/2017.
@@ -36,14 +30,4 @@ public class MainActivityPresenterChild extends MainPresenter
         return mainActivityModelChild;
     }
 
-    @Override
-    public Observable getViewFieldOfResIdAndClass(final Class clz, final int resId) {
-        return super.getViewFieldOfResIdAndClass(clz, resId);
-    }
-
-    @Override
-    public Observable<List<Field>> getViewModelFieldsOfAnnotationType(BaseViewModel viewModel, Class annotationType)
-    {
-        return super.getViewModelFieldsOfAnnotationType(viewModel, annotationType);
-    }
 }

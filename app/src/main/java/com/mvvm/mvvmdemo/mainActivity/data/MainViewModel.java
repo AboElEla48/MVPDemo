@@ -14,13 +14,14 @@ import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
 import com.mvvm.common.base.viewmodels.BaseViewModel;
 
 import com.mvvm.common.utils.LogUtil;
+import com.mvvm.mvvmdemo.mainActivity.MainActivity;
 
 /**
  * Created by AboelelaA on 6/12/2017.
  * Define base View model for the activity
  */
 
-public class MainViewModel extends BaseViewModel
+public class MainViewModel extends BaseViewModel<MainActivity, MainViewModel>
 {
     @ViewModelTextField(R.id.main_activity_title_text_view)
     String activityTextViewValue;
