@@ -4,8 +4,8 @@
 
 package com.mvvm.common.base.views;
 
-import com.mvvm.common.annotation.DataModel;
-import com.mvvm.common.annotation.ViewModel;
+import com.mvvm.framework.annotation.DataModel;
+import com.mvvm.framework.annotation.ViewModel;
 import com.mvvm.mvvmdemo.mainActivity.MainPresenter;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 

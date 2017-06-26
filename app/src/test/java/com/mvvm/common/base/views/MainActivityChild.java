@@ -4,7 +4,7 @@
 
 package com.mvvm.common.base.views;
 
-import com.mvvm.common.annotation.Presenter;
+import com.mvvm.framework.annotation.Presenter;
 import com.mvvm.mvvmdemo.mainActivity.MainActivity;
 
 /**

@@ -1,6 +1,6 @@
 package com.mvvm.common.base.creators.FieldCreator;
 
-import com.mvvm.common.annotation.DataModel;
+import com.mvvm.framework.annotation.DataModel;
 
 /**
  * Created by aboelela on 24/06/17.

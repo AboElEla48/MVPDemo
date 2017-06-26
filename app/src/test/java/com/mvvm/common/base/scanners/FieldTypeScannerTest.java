@@ -1,8 +1,9 @@
 package com.mvvm.common.base.scanners;
 
-import com.mvvm.common.annotation.DataModel;
-import com.mvvm.common.annotation.Presenter;
-import com.mvvm.common.annotation.ViewModel;
+import com.mvvm.framework.annotation.DataModel;
+import com.mvvm.framework.annotation.Presenter;
+import com.mvvm.framework.annotation.ViewModel;
+import com.mvvm.framework.base.scanners.FieldTypeScanner;
 
 import org.junit.Assert;
 import org.junit.Test;

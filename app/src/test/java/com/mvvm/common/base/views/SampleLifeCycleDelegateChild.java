@@ -1,6 +1,7 @@
 package com.mvvm.common.base.views;
 
-import com.mvvm.common.base.presenters.BasePresenter;
+import com.mvvm.framework.base.presenters.BasePresenter;
+import com.mvvm.framework.base.views.LifeCycleDelegate;
 
 /**
  * Created by AboelelaA on 6/8/2017.

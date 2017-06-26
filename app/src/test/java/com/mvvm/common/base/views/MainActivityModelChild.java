@@ -4,7 +4,7 @@
 
 package com.mvvm.common.base.views;
 
-import com.mvvm.common.base.models.BaseModel;
+import com.mvvm.framework.base.models.BaseModel;
 
 /**
  * Created by AboelelaA on 6/14/2017.

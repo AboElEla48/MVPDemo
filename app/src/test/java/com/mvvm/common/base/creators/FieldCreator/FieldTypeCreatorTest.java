@@ -1,8 +1,8 @@
 package com.mvvm.common.base.creators.FieldCreator;
 
-import com.mvvm.common.annotation.DataModel;
-import com.mvvm.common.base.creators.FieldTypeCreator;
-import com.mvvm.common.base.scanners.FieldTypeScanner;
+import com.mvvm.framework.annotation.DataModel;
+import com.mvvm.framework.base.creators.FieldTypeCreator;
+import com.mvvm.framework.base.scanners.FieldTypeScanner;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.R;
-import com.mvvm.common.base.presenters.BasePresenter;
-import com.mvvm.common.messaging.CustomMessage;
-import com.mvvm.common.messaging.MessagesServer;
+import com.mvvm.framework.base.presenters.BasePresenter;
+import com.mvvm.framework.messaging.CustomMessage;
+import com.mvvm.framework.messaging.MessagesServer;
 import com.mvvm.mvvmdemo.mainActivity.MainActivity;
 import com.mvvm.mvvmdemo.senderActivity.loginFragment.LoginFragment;
 

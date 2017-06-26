@@ -6,16 +6,16 @@ import android.view.View;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.mvvm.R;
-import com.mvvm.common.annotation.DataModel;
-import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.annotation.singleton.Singleton;
-import com.mvvm.common.base.presenters.BasePresenter;
-import com.mvvm.common.messaging.CustomMessage;
+import com.mvvm.framework.annotation.DataModel;
+import com.mvvm.framework.annotation.ViewModel;
+import com.mvvm.framework.annotation.singleton.Singleton;
+import com.mvvm.framework.base.presenters.BasePresenter;
+import com.mvvm.framework.messaging.CustomMessage;
 import com.mvvm.mvvmdemo.NavigationManager;
 import com.mvvm.mvvmdemo.mainActivity.data.MainModel;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
-import com.mvvm.common.utils.DialogMsgUtil;
+import com.mvvm.framework.utils.DialogMsgUtil;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 

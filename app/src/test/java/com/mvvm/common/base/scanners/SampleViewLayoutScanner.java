@@ -1,7 +1,7 @@
 package com.mvvm.common.base.scanners;
 
 import com.mvvm.R;
-import com.mvvm.common.annotation.InflateLayout;
+import com.mvvm.framework.annotation.InflateLayout;
 
 /**
  * Created by AboelelaA on 6/6/2017.

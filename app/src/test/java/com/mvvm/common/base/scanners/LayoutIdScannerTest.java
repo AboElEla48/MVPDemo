@@ -1,5 +1,7 @@
 package com.mvvm.common.base.scanners;
 
+import com.mvvm.framework.base.scanners.LayoutIdScanner;
+
 import org.junit.Assert;
 import org.junit.Test;
 

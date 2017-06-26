@@ -1,7 +1,7 @@
 package com.mvvm.common.messaging.inboxes;
 
-import com.mvvm.common.messaging.CustomMessage;
-import com.mvvm.common.messaging.InboxHolder;
+import com.mvvm.framework.messaging.CustomMessage;
+import com.mvvm.framework.messaging.InboxHolder;
 
 /**
  * Created by aboelela on 26/06/17.

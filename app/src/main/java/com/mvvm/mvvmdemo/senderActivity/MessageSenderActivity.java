@@ -3,9 +3,9 @@ package com.mvvm.mvvmdemo.senderActivity;
 import android.widget.Button;
 
 import com.mvvm.R;
-import com.mvvm.common.annotation.InflateLayout;
-import com.mvvm.common.annotation.Presenter;
-import com.mvvm.common.base.views.BaseActivity;
+import com.mvvm.framework.annotation.InflateLayout;
+import com.mvvm.framework.annotation.Presenter;
+import com.mvvm.framework.base.views.BaseActivity;
 
 import butterknife.BindView;
 

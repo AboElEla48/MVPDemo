@@ -5,7 +5,7 @@
 package com.mvvm.common.base.views;
 
 import com.mvvm.R;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.mvvmdemo.mainActivity.data.MainViewModel;
 
 import java.lang.reflect.Field;

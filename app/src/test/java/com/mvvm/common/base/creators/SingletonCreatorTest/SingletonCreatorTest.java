@@ -1,8 +1,8 @@
 package com.mvvm.common.base.creators.SingletonCreatorTest;
 
-import com.mvvm.common.annotation.singleton.Singleton;
-import com.mvvm.common.base.creators.FieldTypeCreator;
-import com.mvvm.common.base.scanners.FieldTypeScanner;
+import com.mvvm.framework.annotation.singleton.Singleton;
+import com.mvvm.framework.base.creators.FieldTypeCreator;
+import com.mvvm.framework.base.scanners.FieldTypeScanner;
 
 import org.junit.Assert;
 import org.junit.Test;

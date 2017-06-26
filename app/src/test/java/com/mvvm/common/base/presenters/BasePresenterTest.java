@@ -1,6 +1,6 @@
 package com.mvvm.common.base.presenters;
 
-import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelTextField;
 import com.mvvm.common.base.views.MainActivityChild;
 import com.mvvm.common.base.views.MainActivityPresenterChild;
 import com.mvvm.common.base.views.MainActivityViewModelChild;

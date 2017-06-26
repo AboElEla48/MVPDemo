@@ -2,6 +2,8 @@ package com.mvvm.common.messaging;
 
 import com.mvvm.common.messaging.inboxes.Inbox1;
 import com.mvvm.common.messaging.inboxes.PendingInboxSample;
+import com.mvvm.framework.messaging.CustomMessage;
+import com.mvvm.framework.messaging.MessagesServer;
 
 import org.junit.After;
 import org.junit.Assert;

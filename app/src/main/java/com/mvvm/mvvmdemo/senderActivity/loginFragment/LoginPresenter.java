@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
-import com.mvvm.common.annotation.ViewModel;
-import com.mvvm.common.base.presenters.BasePresenter;
+import com.mvvm.framework.annotation.ViewModel;
+import com.mvvm.framework.base.presenters.BasePresenter;
 import com.mvvm.mvvmdemo.senderActivity.loginFragment.data.LoginViewModel;
 
 import io.reactivex.annotations.NonNull;

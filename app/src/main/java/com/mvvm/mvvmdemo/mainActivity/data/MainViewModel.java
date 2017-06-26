@@ -5,15 +5,15 @@
 package com.mvvm.mvvmdemo.mainActivity.data;
 
 import com.mvvm.R;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelCheckBoxField;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelHintEditTextField;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelImageViewField;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelTextField;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelTextViewTextColorField;
-import com.mvvm.common.annotation.viewmodelfields.ViewModelViewVisibilityField;
-import com.mvvm.common.base.viewmodels.BaseViewModel;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelCheckBoxField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelHintEditTextField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelImageViewField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelTextField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelTextViewTextColorField;
+import com.mvvm.framework.annotation.viewmodelfields.ViewModelViewVisibilityField;
+import com.mvvm.framework.base.viewmodels.BaseViewModel;
 
-import com.mvvm.common.utils.LogUtil;
+import com.mvvm.framework.utils.LogUtil;
 import com.mvvm.mvvmdemo.mainActivity.MainActivity;
 
 /**
