@@ -80,7 +80,7 @@ public class LogUtil
 	 */
 	public static void writeErrorLog(String logTag, String message, Exception ex)
 	{
-		ex.printStackTrace();
+		//ex.printStackTrace();
 
 		if (mUseErrorLog)
 		{

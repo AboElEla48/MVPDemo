@@ -23,6 +23,7 @@ import com.mvvm.common.interfaces.FragmentLifeCycle;
 import com.mvvm.common.messaging.CustomMessage;
 import com.mvvm.common.messaging.InboxHolder;
 import com.mvvm.common.messaging.MessagesServer;
+import com.mvvm.common.utils.LogUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ import io.reactivex.functions.Function;
 
 public class BasePresenter<V extends BaseView, P extends BasePresenter> implements ActivityLifeCycle, FragmentLifeCycle, InboxHolder
 {
+    private String TAG = BasePresenter.class.getName();
+
     private V baseView;
     private P childPresenter;
 
@@ -87,13 +90,23 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
      * Create all fields annotated as singleton in presenter
      */
     private void createFieldsAnnotatedAsSingleton() {
-        Observable.fromIterable(new FieldTypeScanner().apply(childPresenter.getClass().getDeclaredFields(), Singleton.class))
-                .map(toSingleton(childPresenter, false))
-                .subscribe();
+        try {
+            Observable.fromIterable(new FieldTypeScanner().apply(childPresenter.getClass().getDeclaredFields(), Singleton.class))
+                    .map(toSingleton(childPresenter, false))
+                    .subscribe();
+        } catch (UnsupportedOperationException ex) {
+            LogUtil.writeDebugLog(TAG, "No Singleton objects declared");
+        }
 
-        Observable.fromIterable(new FieldTypeScanner().apply(childPresenter.getClass().getDeclaredFields(), SingletonPerSession.class))
-                .map(toSingleton(childPresenter, true))
-                .subscribe();
+
+        try {
+            Observable.fromIterable(new FieldTypeScanner().apply(childPresenter.getClass().getDeclaredFields(), SingletonPerSession.class))
+                    .map(toSingleton(childPresenter, true))
+                    .subscribe();
+        } catch (UnsupportedOperationException ex) {
+            LogUtil.writeDebugLog(TAG, "No Singleton Per Session objects declared");
+        }
+
     }
 
     private Function<Field, Object> toSingleton(final BasePresenter singletonPresenter, final boolean isPerSession) {
@@ -106,7 +119,7 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
                 singletonField.setAccessible(true);
                 singletonField.set(singletonPresenter, singletonObject);
 
-                if(isPerSession) {
+                if (isPerSession) {
                     allSingletonPerSessionObjects.add(singletonObject);
                 }
 
@@ -249,7 +262,6 @@ public class BasePresenter<V extends BaseView, P extends BasePresenter> implemen
     public V getBaseView() {
         return baseView;
     }
-
 
 
 }
