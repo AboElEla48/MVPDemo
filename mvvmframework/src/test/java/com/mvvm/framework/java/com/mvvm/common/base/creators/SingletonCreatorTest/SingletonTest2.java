@@ -1,4 +1,4 @@
-package com.mvvm.common.base.creators.SingletonCreatorTest;
+package com.mvvm.framework.java.com.mvvm.common.base.creators.SingletonCreatorTest;
 
 import com.mvvm.framework.annotation.singleton.Singleton;
 

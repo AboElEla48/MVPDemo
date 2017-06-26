@@ -1,7 +1,7 @@
-package com.mvvm.common.messaging;
+package com.mvvm.framework.java.com.mvvm.common.messaging;
 
-import com.mvvm.common.messaging.inboxes.Inbox1;
-import com.mvvm.common.messaging.inboxes.PendingInboxSample;
+import com.mvvm.framework.java.com.mvvm.common.messaging.inboxes.Inbox1;
+import com.mvvm.framework.java.com.mvvm.common.messaging.inboxes.PendingInboxSample;
 import com.mvvm.framework.messaging.CustomMessage;
 import com.mvvm.framework.messaging.MessagesServer;
 

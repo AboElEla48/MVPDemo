@@ -1,4 +1,4 @@
-package com.mvvm.common.base.creators.FieldCreator;
+package com.mvvm.framework.java.com.mvvm.common.base.creators.FieldCreator;
 
 import com.mvvm.framework.annotation.DataModel;
 import com.mvvm.framework.base.creators.FieldTypeCreator;

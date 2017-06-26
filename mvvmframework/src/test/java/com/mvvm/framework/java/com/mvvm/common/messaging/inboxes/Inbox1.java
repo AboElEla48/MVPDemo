@@ -1,4 +1,4 @@
-package com.mvvm.common.messaging.inboxes;
+package com.mvvm.framework.java.com.mvvm.common.messaging.inboxes;
 
 import com.mvvm.framework.messaging.CustomMessage;
 import com.mvvm.framework.messaging.InboxHolder;

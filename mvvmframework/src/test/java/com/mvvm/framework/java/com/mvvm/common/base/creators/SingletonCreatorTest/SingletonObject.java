@@ -1,4 +1,4 @@
-package com.mvvm.common.base.creators.SingletonCreatorTest;
+package com.mvvm.framework.java.com.mvvm.common.base.creators.SingletonCreatorTest;
 
 /**
  * Created by aboelela on 24/06/17.
