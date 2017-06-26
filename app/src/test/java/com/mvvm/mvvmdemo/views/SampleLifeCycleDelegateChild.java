@@ -1,4 +1,4 @@
-package com.mvvm.common.base.views;
+package com.mvvm.mvvmdemo.views;
 
 import com.mvvm.framework.base.presenters.BasePresenter;
 import com.mvvm.framework.base.views.LifeCycleDelegate;

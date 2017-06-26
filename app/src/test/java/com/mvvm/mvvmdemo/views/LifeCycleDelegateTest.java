@@ -1,4 +1,4 @@
-package com.mvvm.common.base.views;
+package com.mvvm.mvvmdemo.views;
 
 import com.mvvm.framework.annotation.DataModel;
 import com.mvvm.framework.annotation.Presenter;

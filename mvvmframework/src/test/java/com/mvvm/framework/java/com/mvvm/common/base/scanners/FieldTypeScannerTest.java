@@ -1,4 +1,4 @@
-package com.mvvm.common.base.scanners;
+package com.mvvm.framework.java.com.mvvm.common.base.scanners;
 
 import com.mvvm.framework.annotation.DataModel;
 import com.mvvm.framework.annotation.Presenter;

@@ -1,9 +1,9 @@
-package com.mvvm.common.base.presenters;
+package com.mvvm.mvvmdemo.presenters;
 
 import com.mvvm.framework.annotation.viewmodelfields.ViewModelTextField;
-import com.mvvm.common.base.views.MainActivityChild;
-import com.mvvm.common.base.views.MainActivityPresenterChild;
-import com.mvvm.common.base.views.MainActivityViewModelChild;
+import com.mvvm.mvvmdemo.views.MainActivityChild;
+import com.mvvm.mvvmdemo.views.MainActivityPresenterChild;
+import com.mvvm.mvvmdemo.views.MainActivityViewModelChild;
 
 import junit.framework.Assert;
 

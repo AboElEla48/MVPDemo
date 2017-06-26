@@ -2,7 +2,7 @@
  * Copyright (c) This code is written by Ahmed AboElEla (eng.a.aboelela@gmail.com). You can use it but please refer to Owner
  */
 
-package com.mvvm.common.base.views;
+package com.mvvm.mvvmdemo.views;
 
 import com.mvvm.R;
 import com.mvvm.framework.annotation.viewmodelfields.ViewModelTextField;
