@@ -2,7 +2,7 @@ package com.mvvm.framework.base.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +17,11 @@ import com.mvvm.framework.messaging.MessagesServer;
 import butterknife.ButterKnife;
 
 /**
- * Created by AboelelaA on 6/6/2017.
- * This is the parent fragment
+ * Created by aboelela on 30/06/17.
+ * Base class for all fragments that will be created as Dialog fragments
  */
 
-public class BaseFragment extends Fragment implements BaseView, FragmentLifeCycle, InboxHolder
+public class BaseDialogFragment extends DialogFragment implements BaseView, FragmentLifeCycle, InboxHolder
 {
     private LifeCycleDelegate lifeCycleDelegate;
 
@@ -46,13 +46,14 @@ public class BaseFragment extends Fragment implements BaseView, FragmentLifeCycl
 
         // Get declared resource Id of this activity
         int resourceId = new LayoutIdScanner().apply(this);
-        return inflater.inflate(resourceId, container, false);
+        View v = inflater.inflate(resourceId, container, false);
+        ButterKnife.bind(this, v);
+        return v;
     }
 
     @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ButterKnife.bind(this, getActivity());
 
         // pass lifecycle to baseView life cycle delegate
         lifeCycleDelegate = new LifeCycleDelegate(this);
